@@ -18,7 +18,7 @@ public class gerarBoleto {
 				.comBairro("Bairro Grande").comCep("01234-555").comCidade("São Paulo").comUf("SP");
 
 		// Quem emite o boleto
-		Beneficiario beneficiario = Beneficiario.novoBeneficiario().comNomeBeneficiario("Fulano de Tal")
+		Beneficiario beneficiario = Beneficiario.novoBeneficiario().comNomeBeneficiario("Claudia Cândido")
 				.comAgencia("1824").comDigitoAgencia("4").comCodigoBeneficiario("76000")
 				.comDigitoCodigoBeneficiario("5").comNumeroConvenio("1207113").comCarteira("18")
 				.comEndereco(enderecoBeneficiario).comNossoNumero("9000206");
