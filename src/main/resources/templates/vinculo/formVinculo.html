@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+ <head th:replace="template::html_head">
+ <meta charset="utf-8"/>
+ </head>
+ 
+<body>
+ 	<div th:replace="template::menu" ></div>
+ 	 <p></p>
+		<div class="container_pequeno center">
+	
+			 	 <h5 > Cadastro de Vinculo</h5>
+			     <br>
+			     <div th:each ="m:${msg}" class="container alert">
+					  <span class="red-text text-darken-2" th:text="${m}"></span>
+		   		 </div>
+			    <br>
+			   <form th:action="@{/salvarVinculo}" class="container" method="post" th:object="${vinculo}">
+			   		<input type="hidden" th:field="*{codVinculo}"/>
+			
+				    <div class="row">
+				   		<label for="nome">Nome
+				    	<input id="nome" type="text"  th:field="*{descricao}"/>
+				      </label>	
+				    </div>
+				  <div>					
+				   	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    
+				  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+				  <button type="reset"  class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">close</i> Cancelar</button>
+				</div>
+			  </form>
+			  <br>
+		 </div>
+	
+	<div class="container">	
+	   <h5 class="center">Listagem de Vinculos</h5>
+	   
+	     <div th:each ="m:${msg}" class="container alert">
+			  <span class="red-text text-darken-2" th:text="${m}"></span>
+   		 </div>
+	   
+	   <br>
+	   <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"> </div>
+	   <br>
+	   	<table class="container responsive-table striped pagination">
+		 <thead class="blue lighten-5"> 
+			   <tr> 
+			    <th> Descrição </th>
+			    <th> Deletar </th>
+			    <th> Editar </th>
+			   </tr>
+		</thead>
+		 <tbody>		 
+		<tr th:each="vinculo:${lista_vinculos}">
+		    <td> <span th:text="${vinculo.descricao}"></span></td>
+			<td>  <a class="waves-effect waves-light modal-trigger" data-toggle="modal" id="modalDelete"
+			 th:attr="href='#modal-vinculo'+*{vinculo.codVinculo}"><i class="material-icons left">delete</i></a>
+						 
+						  <div th:id="'modal-vinculo'+*{vinculo.codVinculo}" class="modal">
+							  <div class="modal-content">
+							    <h5>Excluir Vinculo   </h5>
+							    
+							    <p>Confirma exclusão do vinculo? </p>
+							     <span th:text="${vinculo.descricao}"> </span>
+							  
+							  </div>
+							  <div class="modal-footer">
+							    <a href="#!" class="modal-close waves-effect  btn red">Cancelar</a>
+							    <a th:href="@{/deletarVinculo/{idVinculo}(idVinculo=${vinculo.codVinculo})}" class="modal-close waves-effect blue btn">Confirmar</a>
+							  </div>
+					     
+							</div>
+			</td>
+		    <td> <a  th:href="@{/editarVinculo/{idVinculo}(idVinculo=${vinculo.codVinculo})}"><i class="material-icons left">edit</i></a></td>
+		   </tr>  
+		 </tbody>
+		</table>
+		
+	</div>
+     <div th:replace="template::footer"> </div> 
+</body>  
+</html>        
+
+

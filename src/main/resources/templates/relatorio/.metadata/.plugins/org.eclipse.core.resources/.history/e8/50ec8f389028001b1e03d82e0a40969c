@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListaAssociados2" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="51e2eed3-33fc-4aea-84a3-845f0a9b2da6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Atepe"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString>
+		<![CDATA[SELECT sfa_ass_associado.sfa_ass_matricula AS matricula,
+	sfa_ass_associado.sfa_ass_nome AS nomeCompleto,
+	sfa_ass_associado.sfa_ass_margem AS margem,
+	sfa_ass_associado.sfa_ass_tipo AS tipoAssociado,
+	sfa_ass_associado.sfa_ass_cpf,
+	sfa_ass_associado.sfa_ass_email,
+	sfa_ass_associado.sfa_ass_telefone
+FROM sfa_ass_associado]]>
+	</queryString>
+	<field name="matricula" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Matricula"/>
+		<property name="net.sf.jasperreports.sql.field.column.name" value="matricula"/>
+	</field>
+	<field name="nomeCompleto" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="nomeCompleto"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Nome"/>
+		<property name="com.jaspersoft.studio.field.name" value="nomeCompleto"/>
+	</field>
+	<field name="margem" class="java.lang.Double">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="margem"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Margem"/>
+	</field>
+	<field name="tipoAssociado" class="java.util.Enumeration">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="tipoAssociado"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Tipo"/>
+		<property name="com.jaspersoft.studio.field.name" value="tipoAssociado"/>
+		<property name="com.jaspersoft.studio.field.label" value="TipoAssociado"/>
+	</field>
+	<field name="telefone" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="telefone"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Telefone"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="email"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="E-mail"/>
+	</field>
+	<field name="cpf" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="cpf"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="CPF"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="111" splitType="Stretch">
+			<staticText>
+				<reportElement x="37" y="10" width="383" height="30" uuid="ae7fe9f7-5a13-4cd7-87bc-7c806a08f758"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO DOS ASSOCIADOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="60" height="19" uuid="8a4b52d4-1882-4465-851f-325b9dd715be"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matricula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="80" width="100" height="19" uuid="8163a023-70ba-484e-83b9-0b04e5cd600f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NomeCompleto]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="450" y="50" width="100" height="20" uuid="bb8cdd91-fadf-4aaf-b82a-104fb33b8e82"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="10" width="100" height="30" uuid="e47eaf2a-9ce3-45dd-b695-746bb9b39084"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="191" y="81" width="72" height="19" uuid="e7b12737-2393-43b5-8697-6d0710668801"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="80" width="100" height="19" uuid="0503b96a-93a2-4b39-9916-365eae6d2f42"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[E-mail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="450" y="80" width="94" height="18" uuid="679d8f31-979e-4b12-89a7-52ac2eef1e99"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="53" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="6" width="60" height="17" uuid="64744b6e-213f-48ed-a91a-34139a507f42"/>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="70" y="6" width="260" height="17" uuid="b0d45cbb-c5ab-44c0-a75c-23e94eced9eb"/>
+				<textFieldExpression><![CDATA[$F{nomeCompleto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="177" y="30" width="90" height="16" uuid="e5e6940e-cdf5-484d-ac04-912184b155be"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="271" y="30" width="169" height="16" uuid="06d6fd25-bbe8-4b74-9042-5df6a628c3ee"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="32" width="90" height="13" uuid="f791341c-1743-4d9e-abb0-843c9feb940c"/>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

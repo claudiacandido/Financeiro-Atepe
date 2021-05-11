@@ -1,0 +1,43 @@
+
+ <section layout:fragment="header">
+	   <div class="navbar-fixed">
+	   <nav class="blue">
+	    <div class="nav-wrapper">
+	      <a href="#!" class="center brand-logo">ATEPE</a>
+	      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+	      <ul class="left hide-on-med-and-down">
+	                          <!-- Submenu Tabela -->
+	            <li><a class="dropdown-trigger" href="#!" data-target="dropdown1"  data-activates="dropdown1" >Tabelas<i class="material-icons right">arrow_drop_down</i></a></li>
+		        <li><a href="/cadastrarFechamento">Lançamentos</a></li>
+		        <li><a href="/consultarExtrato">Extrato</a></li>
+		        <li><a href="/fazerPagamento">Pagamentos</a></li>
+		       
+		  </ul>
+	    </div>
+	  </nav>
+	
+		  <!-- Submenu Dropdown Structure -->
+		<ul id="dropdown1" class="dropdown-content" >
+		  <li><a href="/cadastrarUsuario">Usuario</a></li>
+		  <li class="divider"></li>
+		  <li><a href="/cadastrarAssociado">Associados</a></li>
+		  <li class="divider"></li>
+		  <li><a href="/cadastrarConvenio">Convenios</a></li>
+		</ul>
+	
+	  </div>
+	 <div>
+     <ul class="sidenav" id="mobile-demo">           
+            <li><a href="/cadastrarUsuario">Usuario</a></li>
+	        <li><a href="/cadastrarAssociado">Associados</a></li>
+	        <li><a href="/cadastrarConvenio">Convenios</a></li>	        
+	        <li><a href="/cadastrarFechamento">Fechamentos</a></li>
+	        <li><a href="/cadastrarFechamento">Lançamentos</a></li>
+		    <li><a href="/consultarExtrato">Extrato</a></li>
+		    <li><a href="/fazerPagamento">Pagamentos</a></li>
+		      
+	   </ul>
+ 
+     </div>
+	</div>
+</section>

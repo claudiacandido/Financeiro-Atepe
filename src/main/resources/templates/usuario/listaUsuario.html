@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head"/>
+	
+<body>
+	 	<div th:replace="template::menu">
+	 	</div>
+
+	<h2> Lista de Usuarios</h2>
+	
+	<br>
+	<form action="pesquisarUsuarios" method="post">
+	 <label> Pesquisa por nome</label>
+	 <input name="nomepesquisa">
+	 <input class="waves-effect waves-light btn" type="submit" value="Buscar">
+	</form>
+	<br>
+	<br>
+	
+	
+	<a  href="/cadastrarUsuario" class="waves-effect waves-light btn"><i class="material-icons left">add_circle_outline</i>Cadastrar Usuario </a>
+	
+	<a  href="/" class="waves-effect waves-light btn"><i class="material-icons left">add_circle_outline</i>Home</a>
+		
+		<table class="container">
+		 <thead> 
+		   <tr> 
+		    <th> Nome </th>
+		    <th> Login </th>
+		    <th> Senha </th>
+		    <th> Email </th>
+	        <th> Deletar </th>
+		    <th> Editar </th>
+		   
+		   </tr>
+		 </thead>
+		 <tbody>		 
+			  <tr th:each="usuario:${usuarios}">
+				<td> <a th:href="${(#mvc.url('UC#detalhesUsuario').arg(0,usuario.codigo)).build()}"> <span th:text="${usuario.nome}"> </span> </a></td>
+				<td> <span th:text="${usuario.login}"></span></td>
+				<td> <span th:text="${usuario.senha}"></span></td>
+				<td> <span th:text="${usuario.email}"></span></td>
+				<td> <a th:href="${(#mvc.url('UC#deletarUsuario').arg(0,usuario.codigo)).build()}"><i class="material-icons left">delete</i></a></td>
+				<td> <a th:href="|editarUsuario?codigo=usuario.codigo|"><i class="material-icons left">edit</i></a></td>
+			   </tr>  
+			 </tbody>
+			</table>
+
+		<section class="my-5">
+		    <div class="container">
+		        <div class="row">
+		            <div class="col-md-8 mx-auto">
+		                <h2>Importar arquivo de dados</h2>
+		                <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+		                <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+		                    <div class="form-group">
+		                        <input type="file" name="file" class="form-control-file">
+		                    </div>
+		                    <button type="submit" class="btn btn-primary">Gerar</button>
+		                </form>
+		            </div>
+		        </div>
+		    </div>
+		</section>
+   	<div th:replace="template::footer"> </div>
+</body>
+</html>

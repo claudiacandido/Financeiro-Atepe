@@ -1,0 +1,25 @@
+ <section layout:fragment="footer">
+    <footer>
+        <div class="container">
+	      <p align="center">Atepe - Associação dos Funcionários da ATI copyright - &copy; </p>
+	     <!--JavaScript at end of body for optimized loading-->
+	   </div>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="/materialize/js/materialize.js"></script>
+		<script >
+		  // Or with jQuery
+		  
+		  document.addEventListener('DOMContentLoaded', function() {
+		    var elems = document.querySelectorAll('select');
+		  });
+			
+		  $(document).ready(function(){
+			$('.sidenav').sidenav();
+		    $('.tabs').tabs();
+		    $('.collapsible').collapsible();
+		    $('select').formSelect();
+		    $(".dropdown-trigger").dropdown({ coverTrigger: false});
+		       });
+		</script>
+	</footer>
+</section>  

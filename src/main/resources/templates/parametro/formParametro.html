@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+   <meta charset="utf-8"/>
+   </head>
+ 
+<body>
+	 	<div th:replace="template::menu" >
+	 	</div>
+		<div class="hoverable container ">
+	    <h5 > Cadastro de Parametros</h5>
+	    <br>
+	    <div th:each ="m:${msg}" class="container alert  red lighten-5">
+		  <span class="red-text text-darken-2" th:text="${m}"></span>
+		</div>
+		<br>
+		
+		<form th:action="@{/salvarParametro}" class="container" method="post" th:object="${parametro}">
+			<input type="hidden" th:field="*{id}"/>
+			 <div class="row">
+			    <div class="input-field col s3">
+				   CNPJ:<input type="text"  th:field="*{cnpj}" autofocus="autofocus" maxlength="20" />
+			 	 </div>	
+				<div  class="input-field col s2">
+			      Conta:<input type="text"  th:field="*{conta}"  maxlength="15"/>
+			    </div>
+			     <div class="input-field col s2">
+			 	   Agência:<input type="text"  th:field="*{agencia}" maxlength="15"/>
+			     </div>		 
+				 <div class="input-field col s2">
+				    Número Banco:<input type="text"  th:field="*{numeroBanco}" maxlength="15"/>
+			     </div>		 
+				 <div class="input-field col s3">
+				   Especie Doc:<input type="text"  th:field="*{especieDoc}" maxlength="20"/>
+			     </div>		 
+			     </div> 
+			    <div class="row">
+			 	   <div class="input-field col s2">
+				  Nosso Número:<input type="text"  th:field="*{nossoNumero}" maxlength="20"/>
+			     </div>		 
+			     
+			     <div class="input-field col s6">
+				   Responsável:<input type="text"  th:field="*{responsavel}" maxlength="100"/>
+				  </div>		 
+				  <div class="input-field col s4">
+				   Função Resp:<input type="text"  th:field="*{funcao_resp}" maxlength="100"/>
+				  </div>
+				  <div class="input-field col s6">
+				 	E-mail:<input type="email"  th:field="*{email_responsavel}" maxlength="50"/>
+			 	</div>
+			    <div class="input-field col s6">
+				  Diretório para Download:<input type="text"  th:field="*{path_download}" maxlength="30"/>
+			     </div>		 
+			    
+				</div> 
+			  
+		     <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+		   </form>
+	   <br>
+	   </div>
+	   <br>
+	      <br>
+	   <br>
+	
+	   <br>
+	   <br>
+	<div th:replace="template::footer"> </div>
+</body>  
+</html>        

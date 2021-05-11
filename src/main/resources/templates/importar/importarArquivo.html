@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="template::html_head"/>
+<body>
+	<div th:replace="template::menu"></div>
+	<section class="my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2>Upload File Example</h2>
+                <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+              <form action="/importe" enctype="multipart/form-data" method="post">
+			    <div class="file-field input-field">
+			      <div class="btn">
+			        <span>File</span>
+			        <input type="file" name="arquivoImportado" required>
+			      </div>
+			      <div class="file-path-wrapper">
+			        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+			      </div>
+			    </div>
+			    <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Importar dados da Verba</button>
+			  </form>
+			        
+            </div>
+        </div>
+    </div>
+</section>
+<div th:replace="template::footer"> </div>
+</body>
+</html>

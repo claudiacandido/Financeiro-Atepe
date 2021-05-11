@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="associado" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96a7cfa1-0f5d-4e93-a7e7-72bc63830a37">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[c2ZhX2Fzc19hc3NvY2lhZG8gQVMgLDE1OSwzMixiMWI3Njk5MC1jNmFhLTRkMDctOWU2My04MWM2
+MmVmOWUxN2Q7]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT sfa_ass_associado.sfa_ass_matricula matricula,
+	sfa_ass_associado.sfa_ass_nome nomeCompleto,
+	sfa_ass_associado.sfa_ass_id
+FROM sfa_ass_associado]]>
+	</queryString>
+	<field name="matricula" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="matricula"/>
+		<property name="com.jaspersoft.studio.field.label" value="matricula"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_ass_associado"/>
+	</field>
+	<field name="nomecompleto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nomecompleto"/>
+		<property name="com.jaspersoft.studio.field.label" value="nomecompleto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_ass_associado"/>
+	</field>
+	<field name="sfa_ass_id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.name" value="sfa_ass_id"/>
+		<property name="com.jaspersoft.studio.field.label" value="sfa_ass_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_ass_associado"/>
+	</field>
+	<group name="sfa_ass_id">
+		<groupExpression><![CDATA[$F{sfa_ass_id}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="48" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="278" height="30" uuid="f3b246a9-a42a-4a97-bd8c-4b40468ffbf0"/>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="0" width="277" height="30" uuid="e3858bed-a548-40de-ad00-4fe9cd1411fe"/>
+				<textFieldExpression><![CDATA[$F{nomecompleto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

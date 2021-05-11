@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+	xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+<head th:replace="template::html_head">
+<meta charset="utf-8" />
+</head>
+
+<body>
+	<div th:replace="template::menu"></div>
+	<div class="container_pequeno">
+
+		<h5 class="center">Extrato do Associado</h5>
+		<div th:each="m:${msg}" class="container alert">
+			<span class="red-text text-darken-2" th:text="${m}"></span>
+		</div>
+		<br> <br>
+		<form th:action="@{/pesquisarExtrato}" method="post">
+			<div class="input-field col s2">
+				<p>Período:</p>
+				<input type="text" name="periodoPesquisa">
+			</div>
+
+			<div class="input-field col s2">
+				<label>Por Matricula:</label> <input type="text"
+					name="matriculaPesquisa" value="">
+
+			</div>
+
+
+			<div class="input-field col s6">
+				<select name="nomePesquisa">
+					<option value="">Por Nome do Associado:</option>
+					<option th:each="assoc:${lista_associados}"
+						th:value="${assoc.codAssociado}" th:text="${assoc.nomeCompleto}"></option>
+				</select>
+			</div>
+
+			<button type="submit"
+				class="waves-effect waves-light btn blue lighten-2">
+				<i class="material-icons right">search</i>Buscar
+			</button>
+		</form>
+	</div>
+	<br>
+	<br>
+			<div th:each="associado:${associado}">
+			<div class="container" th:if="${associado.codAssociado != null}">
+
+				<p class="center">
+					Código:<span th:text="*{associado.codAssociado}"></span>
+				</p>
+				<p class="center">
+					Matricula: <span th:text="${associado.matricula}"></span>
+				</p>
+				<p class="center">
+					Nome: <span th:text="${associado.nomeCompleto}"></span>
+				</p>
+				<p class="center">
+					CPF: <span th:text="${associado.cpf}"></span>
+				</p>
+				<p class="center">
+					Tipo de Associado: <span th:text="${associado.tipoAssociado}"></span>
+				</p>
+			</div>
+		</div>
+
+		<table class="container responsive-table striped">
+			<thead>
+				<tr>
+					<th>Codigo</th>
+					<th>Convenio</th>
+					<th>Valor Total</th>
+					<th>Valor da Parcela</th>
+					<th>Qtda Parcelas</th>
+					<th>Data da Inclusão</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="movimento:${lista_lancamentos}">
+					<td><span th:text="${movimento.codMovimento}"> </span></td>
+					<td><span
+						th:text="${movimento.lancamento.convenio.razaoSocial}"> </span></td>
+					<td><span
+						th:text="${#numbers.formatCurrency(movimento.valorTotal)}"></span></td>
+					<td><span
+						th:text="${#numbers.formatCurrency(movimento.valorParcela)}"></span></td>
+					<td><span th:text="${movimento.quantidade}"></span></td>
+					<td><span
+						th:text="${#dates.format(movimento.dataInclusao, 'dd/MM/yyyy')}"></span></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="container_pequeno" th:if="${valor_total >0}">
+			<div class="input-field col s6">
+				Total Em Boleto................. <span
+					th:text="${#numbers.formatCurrency(valor_boleto)}"> </span>
+			</div>
+			<div class="input-field col s6">
+				Total Em Folha.................. <span
+					th:text="${#numbers.formatCurrency(valor_folha)}"> </span>
+			</div>
+			<div class="input-field col s6">
+				Total Geral........................ <span
+					th:text="${#numbers.formatCurrency(valor_total)}"> </span>
+			</div>
+		</div>
+		<div th:replace="template::footer"></div>
+</body>
+</html>
+

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+ <meta charset="utf-8"/>
+ </head>
+ 
+<body>
+ 	<div th:replace="template::menu" >
+ 	</div>
+		  <div class="container_pequeno">
+			  		
+		<h5 class="center"> Extrato por Tipo de  Pagamento</h5>
+			<div th:each ="m:${msg}" class="container alert">
+				  <span class="red-text text-darken-2" th:text="${m}"></span>
+			</div>
+			<br>
+			 <br>
+			     <form th:action="@{${pageContext.request.contextPath}/pesquisarTipoPagto}" method="post">
+			        <div class="input-field col s2">
+				    	      <p>Período:</p> 
+				    	      <input type="text" name="periodoPesquisa">
+			    	 </div> 
+				    	 <div class="input-field col s6">
+			     	     <select name="nomePesquisa">
+				    			<option value="">Selecione o tipo para pesquisar</option>	
+				                 <option th:each="tipo:${listaPagam}" th:value="${tipo}" th:text="${tipo.descricao}" th:selected="${tipo == tipoPagamento}"></option>
+		                   </select>
+	     	        </div>
+				  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button> 
+			    </form>
+			   </div>
+			  <br>
+			 <br>
+	       
+		<div class="container">
+			<div class="roow center">
+			<div><h5> Periodo: <span  th:text="${periodo}"> </span></h5></div>
+			<div><h5> Tipo de Pagamento: <span  th:text="${tipoPagto}"> </span></h5></div>
+			<br>
+			<br>
+			</div>
+		  	<table class="container responsive-table striped">
+			 <thead> 
+			   <tr> 
+			    <th> Matricula </th>
+				<th> Associado</th>
+			    <th> Convenio</th>
+			    <th> Valor Total</th>
+			    <th> Valor da Parcela </th>
+			    <th> Qtda Parcelas</th>
+			    <th> Data da Inclusão</th>
+			
+			   </tr>
+			 </thead>
+			 <tbody>		 
+			  <tr th:each="movimento:${lista_lancamentos}">
+					<td> <span th:text="${movimento.associado.matricula}"> </span></td>
+					<td> <span th:text="${movimento.associado.nomeCompleto}"> </span></td>
+					<td> <span th:text="${movimento.lancamento.convenio.razaoSocial}"> </span></td>
+					<td> <span th:text="${#numbers.formatCurrency(movimento.valorTotal)}"></span></td>
+					<td> <span th:text="${#numbers.formatCurrency(movimento.valorParcela)}"></span></td>
+					<td> <span th:text="${movimento.quantidade}"></span></td>
+					<td> <span th:text="${#dates.format(movimento.dataInclusao, 'dd/MM/yyyy')}"></span></td>
+			 </tr>  
+			</tbody>
+			</table>
+			<div class="container_pequeno"> Total................. <span  th:text="${#numbers.formatCurrency(valor_total)}"> </span></div>
+		
+	  </div>
+	<div th:replace="template::footer"> </div>
+	
+</body>  
+</html>        
+

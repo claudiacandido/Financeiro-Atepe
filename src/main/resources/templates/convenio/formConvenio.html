@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+  <meta charset="utf-8"/>
+ </head>
+<body>
+	<div th:replace="template::menu" >
+	</div>
+	 <div class="container_pequeno center">
+	 <p></p>
+	 <a class="waves-effect waves-light btn blue modal-trigger" href="#modal-cadconvenio"><i class="material-icons left">account_balance</i>Adicionar convênio</a>
+	</div>
+      <div id="modal-cadconvenio" class="modal">
+  		  <div class="modal-content">
+	       <h5 class="center"> Cadastro de Convênio</h5>
+			<div th:each ="m:${msg}" class="container alert">
+			  <span class="red-text text-darken-2" th:text="${m}"></span>
+			</div>
+			<form th:action="@{/salvarConvenio}" class="container" method="post" th:object="${convenio}">
+			   <div class="row">
+			     <div class="input-filed col s10">
+				   <label for="rsocial">Nome</label>
+				 	<input type="text" id="rsocial" th:field="*{razaoSocial}" autofocus="autofocus" placeholder="Informe a Razão Social "/>
+			 	 </div>
+			     <div class="input-field col s2">
+  	              <label for="verba">Verba </label>
+   			    	<input type="text"  id="verba" th:field="*{verba}"/>
+			  	 </div>
+			    <div class="input-field col s6" >
+			     <label for="nomeResponsavel">Responsável</label>   			   
+				    <input type="text" id="nomeResponsavel" th:field="*{nomeResponsavel}" />
+			    </div>
+			     <div class="input-field col s4">
+			     <label for="cnpj"> CNPJ</label>   			   
+			 	 <input type="text" id="cnpj" th:field="*{cnpj}" maxlength="18"  th:onKeyPress="MascaraCNPJ(cnpj)" />
+			 	</div>
+			 	 <div  class="input-field col s2">
+	    	       <select  name="selec_ass"  th:field="*{tipoPagamento}">
+	    	         <option th:each="tipo:${listaPagam}" th:value="${tipo}" th:text="${tipo.descricao}" th:selected="${tipo == tipoPagamento}"></option>
+		          </select>
+	     	    </div>
+			 	<div class="input-field col s4">
+ 		          <i class="material-icons prefix">phone</i>
+		          <input id="icon_telephone" type="tel" class="validate" maxlength="15" th:field="*{telefone}" th:onKeyPress="MascaraTelefone(telefone)">
+  	              <label for="icon_telephone">Telefone</label>
+   		        </div>
+			 	<div class="input-field col s8">
+				 <label for="endereco">Endereço</label>
+		  		 <input type="text" id="endereco" th:field="*{endereco}" maxlength="100"/>
+			     </div>		 
+			    
+			 	<div class="input-field col s4">
+				 <label for="complemento">Complemento</label>
+				   <input type="text"  th:field="*{complemento}" maxlength="100"/>
+			    </div>		 
+			     <div class="input-field col s2">
+				    <label for="cep">CEP</label>
+					<input type="text" id="cep" th:field="*{cep}" maxlength="9" th:onKeyPress="MascaraCep(cep)"/>
+				  </div>
+				
+				 <div class="input-field col s5">
+				   <label for="cidade">Cidade</label>
+				   <input type="text" id="cidade"  th:field="*{cidade}" maxlength="50" />
+				</div>		 
+			    <div class="input-field col s1">
+			    <label for="uf">UF</label>
+					<input type="text" id="uf" th:field="*{uf}" maxlength="2"/>
+				</div>		 
+			    <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+			    <button type="reset" class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">close</i> Cancelar</button>
+			 
+			 </div>
+	       	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    
+		   </form>
+		   <br>
+		 </div>
+		 </div>  
+	 	<ul class="collapsible">
+	    <li> 
+		  <div class="collapsible-header"><i class="material-icons">place</i>Pesquisar</div>
+	        <div class="collapsible-body">
+			 <form th:action="@{/pesquisarConvenios}" method="post">
+			   <div class="row">	
+		         <div class="input-field col s6">		  
+				     <label>Pesquisa por nome:</label>
+				     <input type="text" name="nomePesquisa" value="">
+				 </div>
+				</div>
+			    <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button> 
+    		 </form>
+	      </div>
+	    </li>
+	   </ul>
+       <div class="container">  
+	      	<h5 class="center"> Listagem de Convênios</h5>
+		   <br>
+		   	<div th:each ="m:${msg}" class="container alert">
+			  <span class="red-text text-darken-2" th:text="${m}"></span>
+			</div>
+		
+		   	<table class="container responsive-table striped">
+			 <thead class="blue lighten-5"> 
+				 <thead> 
+				   <tr> 
+				    <th> Id </th>
+				    <th> Nome do Convênio </th>
+				    <th> CNPJ </th>
+				    <th> Verba </th>
+				    <th> Responsável</th>
+				    <th> Deletar </th>
+				    <th> Editar </th>
+				   
+				   </tr>
+				 </thead>
+				 <tbody>		 
+					  <tr th:each="convenio:${lista_convenios}">
+					  <th scope="row">[[*{convenio.codConvenio}]]</th>
+						<td> <span th:text="${convenio.razaoSocial}"></span></td>
+						<td> <span th:text="${convenio.cnpj}"></span></td>
+						<td> <span th:text="${convenio.verba}"></span></td>
+						<td> <span th:text="${convenio.nomeResponsavel}"> </span> </td>
+				
+					    <td> 
+						 <a class="waves-effect waves-light modal-trigger" data-toggle="modal" id="modalDelete"
+						 th:attr="href='#modal-convenio'+*{convenio.codConvenio}"><i class="material-icons left">delete</i></a>
+						 
+						  <div th:id="'modal-convenio'+*{convenio.codConvenio}"
+						   class="modal">
+							  <div class="modal-content">
+							    <h5>Excluir Convênio 
+							    
+							     </h5>
+							    
+							    <p>Confirma exclusão do convênio? </p>
+							     <span th:text="${convenio.razaoSocial}"> </span>
+							  
+							  </div>
+							  <div class="modal-footer">
+							    <a href="#!" class="modal-close waves-effect  btn red">Cancelar</a>
+							    <a th:href="@{/deletarConvenio/{idConvenio}(idConvenio=${convenio.codConvenio})}" class="modal-close waves-effect blue btn">Confirmar</a>
+							  </div>
+					      
+					          <input type="hidden" name="data-idConvenio"/>
+		
+							</div>
+								    
+					      
+					 
+					 
+					    </td>
+					    <td> <a th:href="@{/editarConvenio/{idConvenio}(idConvenio=${convenio.codConvenio})}" id="btnEdit" data-idConvenio="${convenio.codConvenio}" ><i class="material-icons left">edit</i></a></td>
+					   
+					   </tr>  
+					   </tbody>
+					   
+	  		  </table>
+	
+			  <div id="modal-editconvenio" class="modal">
+		  		  <div class="modal-content">
+			       <h5 class="center"> Cadastro de Convênio</h5>
+					<div th:each ="m:${msg}" class="container alert">
+					  <span class="red-text text-darken-2" th:text="${m}"></span>
+					</div>
+					<form th:action="@{/salvarConvenio}" class="container" method="post" th:object="${convenio}">
+				    <input type="hidden" name="idConvenio" th:field="*{codConvenio}"/>
+					  <input type="hidden" name="idteste" value="*{codConvenio}"/>
+					   <div class="row">
+					     <div class="input-filed col s10">
+						   <label for="rsocial">Razão Social</label>
+						 	<input type="text" id="rsocial" th:field="*{razaoSocial}" autofocus="autofocus" placeholder="Informe a Razão Social "/>
+					 	 </div>
+					     <div class="input-field col s2">
+		  	              <label for="verba">Verba </label>
+		   			    	<input type="text"  id="verba" th:field="*{verba}"/>
+					  	 </div>
+					     <div class="input-field col s6" >
+						     <label for="nomeResponsavel"> Nome Responsável</label>   			   
+							    <input type="text" id="nomeResponsavel" th:field="*{nomeResponsavel}" />
+						 </div>
+						 <div class="input-field col s4">
+					     <label for="cnpj"> CNPJ</label>   			   
+					 	 <input type="text" id="cnpj" th:field="*{cnpj}" maxlength="18"  th:onKeyPress="MascaraCNPJ(cnpj)" />
+					 	</div>
+					 	 <div  class="input-field col s2">
+			    	       <select  name="selec_ass"  th:field="*{tipoPagamento}">
+			    	         <option th:each="tipo:${listaPagam}" th:value="${tipo}" th:text="${tipo.descricao}" th:selected="${tipo == tipoPagamento}"></option>
+				          </select>
+			     	    </div>
+					 	<div class="input-field col s4">
+		 		          <i class="material-icons prefix">phone</i>
+				          <input id="icon_telephone" type="tel" class="validate" maxlength="15" th:field="*{telefone}" th:onKeyPress="MascaraTelefone(telefone)">
+		  	              <label for="icon_telephone">Telefone</label>
+		   		        </div>
+					 	<div class="input-field col s8">
+						 <label for="endereco">Endereço</label>
+				  		 <input type="text" id="endereco" th:field="*{endereco}" maxlength="100"/>
+					     </div>		 
+					    
+					 	<div class="input-field col s4">
+						 <label for="complemento">Complemento</label>
+						   <input type="text"  th:field="*{complemento}" maxlength="100"/>
+					    </div>		 
+					     <div class="input-field col s2">
+						    <label for="cep">CEP</label>
+							<input type="text" id="cep" th:field="*{cep}" maxlength="9" th:onKeyPress="MascaraCep(cep)"/>
+						  </div>
+						
+						 <div class="input-field col s5">
+						   <label for="cidade">Cidade</label>
+						   <input type="text" id="cidade"  th:field="*{cidade}" maxlength="50" />
+						</div>		 
+					    <div class="input-field col s1">
+					    <label for="uf">UF</label>
+							<input type="text" id="uf" th:field="*{uf}" maxlength="2"/>
+						</div>		 
+					    <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+				        <a  th:href="@{/cancelarConvenio}" class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">close</i> Cancelar</a>
+					 </div>
+			       	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    
+				   </form>
+				   <br>
+				 </div>
+				</div>	     
+	  	   </div>
+     <div th:replace="template::footer"> </div>
+     <script>
+          $(document).ready(function () {
+        	  const elem = document.getElementById('modal-editconvenio');
+        	  const instance = M.Modal.init(elem, {dismissible: false});
+        	 	   $('form input').each(
+        				    function(index){  
+        				        var input = $(this);
+        				        if (( input.attr('name')=='codConvenio') & (input.val()!='')) {
+        				        	  instance.open();
+        				        	  $('.modal-editconvenio').modal();
+        				        }
+        				    }
+        				);
+        	    
+			});
+          </script>
+ </body>  
+</html>        
+
+

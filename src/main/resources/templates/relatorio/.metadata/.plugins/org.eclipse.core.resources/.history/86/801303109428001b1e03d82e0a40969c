@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ListaFecPeriodo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e3a686d1-0217-4c3f-bb6c-f4dd5d9c32c5">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<queryString language="SQL">
+		<![CDATA[SELECT sfa_fec_fechamento.sfa_fec_periodo AS periodo,
+	sfa_fec_fechamento.sfa_fec_valor_boleto AS valorBoleto,
+	sfa_fec_fechamento.sfa_fec_valor_devido AS valorDevido,
+	sfa_fec_fechamento.sfa_fec_valor_folha AS valorFolha,
+	sfa_fec_fechamento.sfa_fec_valor_total AS valorTotal,
+	associado.sfa_ass_matricula,
+	associado.sfa_ass_margem,
+	associado.sfa_ass_nome,
+	sfa_fec_fechamento.sfa_fec_valor_pago,
+	sfa_fec_fechamento.sfa_mov_data_pagamento
+FROM sfa_fec_fechamento
+	INNER JOIN sfa_ass_associado AS associado ON 
+	 sfa_fec_fechamento.sfa_ass_id = associado.sfa_ass_id
+	 WHERE 
+	 (sfa_fec_fechamento.sfa_fec_valor_pago > 0.0 AND  sfa_fec_fechamento.sfa_fec_valor_pago IS NOT NULL)]]>
+	</queryString>
+	<field name="periodo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="periodo"/>
+		<property name="com.jaspersoft.studio.field.label" value="periodo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_fec_fechamento"/>
+	</field>
+	<field name="valorBoleto" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valorboleto"/>
+		<property name="com.jaspersoft.studio.field.label" value="valorboleto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_fec_fechamento"/>
+	</field>
+	<field name="valorDevido" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valordevido"/>
+		<property name="com.jaspersoft.studio.field.label" value="valordevido"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_fec_fechamento"/>
+	</field>
+	<field name="valorFolha" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valorfolha"/>
+		<property name="com.jaspersoft.studio.field.label" value="valorfolha"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_fec_fechamento"/>
+	</field>
+	<field name="valorTotal" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valortotal"/>
+		<property name="com.jaspersoft.studio.field.label" value="valortotal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_fec_fechamento"/>
+	</field>
+	<field name="associado.matricula" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="matricula"/>
+		<property name="com.jaspersoft.studio.field.label" value="matricula"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_ass_associado"/>
+		<property name="net.sf.jasperreports.sql.field.column.name" value="matricula"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Matricula"/>
+	</field>
+	<field name="associado.nomeCompleto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nomecompleto"/>
+		<property name="com.jaspersoft.studio.field.label" value="nomecompleto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_ass_associado"/>
+	</field>
+	<field name="associado.margem" class="java.lang.Double">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="margem"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Margem"/>
+	</field>
+	<field name="valorPago" class="java.lang.Double">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="valorPago"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="ValorPago"/>
+	</field>
+	<variable name="val_devido" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorDevido}]]></variableExpression>
+	</variable>
+	<variable name="val_total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorTotal}]]></variableExpression>
+	</variable>
+	<variable name="val_folha" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorFolha}]]></variableExpression>
+	</variable>
+	<variable name="val_boleto" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorBoleto}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="10" width="320" height="30" uuid="aaf5d5f2-50d6-4998-98c1-ae17fef84850"/>
+				<textElement textAlignment="Center">
+					<font size="16"/>
+				</textElement>
+				<text><![CDATA[Valores a receber dos associados  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="250" y="40" width="81" height="30" uuid="8c317ce5-822b-4a8f-b6b6-bf6db5dd4d43"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="450" y="49" width="100" height="21" uuid="f5ccc649-9eb4-499a-bb24-45b508493b13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="450" y="15" width="100" height="20" uuid="ec480ebe-5f48-446d-8e49-054358cb444a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="37">
+			<staticText>
+				<reportElement x="3" y="4" width="160" height="14" uuid="6d4b68fa-dae9-47a1-a8f6-af422b73b1ad">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DADOS DO ASSOCIADO ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="482" y="5" width="70" height="14" uuid="8f564aeb-8618-4ee4-b42e-53bf55ccd5f9"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOT. DEVIDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="240" y="5" width="106" height="14" uuid="e059f296-a1b7-46fd-a851-6cd4833e81de">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DESCONTO TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="3" y="36" width="547" height="1" uuid="3628fae0-f196-4db7-baae-cb0a707c7289"/>
+			</line>
+			<staticText>
+				<reportElement x="2" y="22" width="168" height="12" forecolor="#2051B3" uuid="3cf25992-6cb8-4617-b045-47cd8e21b4d4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matricula-Nome-Margem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="5" width="45" height="14" uuid="02638767-5b6d-49c6-a807-a976c1f04bcf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eacf81d6-0b4e-4d79-98d1-33e935b14270"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FOLHA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="422" y="5" width="58" height="14" uuid="d14dc454-f5e3-400a-9a99-18c47932248a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eacf81d6-0b4e-4d79-98d1-33e935b14270"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ BOLETO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="43" splitType="Stretch">
+			<textField pattern="¤#,#00.00;¤-#,#00.00">
+				<reportElement x="494" y="4" width="59" height="18" uuid="450c865f-9c4b-4076-95a7-2892da970781"/>
+				<textElement textAlignment="Right">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorDevido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,#00.00;¤-#,#00.00">
+				<reportElement x="267" y="4" width="79" height="18" uuid="15e8e123-fd74-44e9-8280-d28c35b36d07"/>
+				<textElement>
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="4" width="50" height="15" forecolor="#1642A8" uuid="356fab1b-2a49-4fa7-8f7e-19be333814d8"/>
+				<textElement markup="none">
+					<font size="11" isBold="true" isItalic="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{associado.matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="4" width="208" height="15" forecolor="#0A3BAD" uuid="6d8b2c25-daf8-4bf8-9dbf-ee95d2f8fd17">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement markup="none">
+					<font size="11" isBold="true" isItalic="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{associado.nomeCompleto}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,#00.00;¤-#,#00.00">
+				<reportElement x="350" y="4" width="68" height="18" uuid="15439b0b-5489-45ca-807b-ff16d0cd282b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="eacf81d6-0b4e-4d79-98d1-33e935b14270"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valorFolha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="422" y="4" width="67" height="18" uuid="4ed09f89-5c8f-46a7-b016-12b4c5de92d2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9aea1541-1e35-44f1-8ae4-3f32b9e488b9"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{valorBoleto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="50">
+			<textField pattern="¤#,#00.00#;¤-#,#00.00#">
+				<reportElement x="175" y="20" width="88" height="20" uuid="0d7ccaa6-522d-4042-8ff2-fa7ce047544e"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{val_total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="45" y="20" width="127" height="20" uuid="0ab5403f-95d8-4818-8599-3049e5c88725"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL GERAL:]]></text>
+			</staticText>
+			<textField pattern="¤#,#00.00;¤-#,#00.00">
+				<reportElement x="465" y="20" width="85" height="20" uuid="a7974fc3-3229-4f77-ad06-3425a427b4cd"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{val_devido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,#00.00;¤-#,#00.00">
+				<reportElement x="275" y="20" width="86" height="20" uuid="802afe53-6651-44c4-b136-9f71c6217b7a"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{val_folha}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,#00.00;¤-#,#00.00">
+				<reportElement x="370" y="20" width="81" height="20" uuid="7f9fc16f-4d58-4f6c-9ef2-ac91e560f07e"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{val_boleto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
+</jasperReport>

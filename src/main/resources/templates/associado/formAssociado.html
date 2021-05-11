@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+ <head th:replace="template::html_head">
+ <meta charset="utf-8"/>
+ </head>
+ 
+<body>
+ 	<div th:replace="template::menu" ></div>
+ 	<div class="container_pequeno center">
+	 <p></p>
+	 <a class="waves-effect waves-light btn blue modal-trigger" href="#modal-cadassociado"><i class="material-icons left">accessibility</i>Adicionar Associado</a>
+     <a th:href="@{${pageContext.request.contextPath}/reportAssociado}" target="_blank" class="waves-effect waves-light btn blue"><i class="material-icons left">assignment_ind</i>Visualizar Relatorio </a>
+	</div>
+      <div id="modal-cadassociado" class="modal">
+  		  <div class="modal-content">
+			 	 <h5 > Cadastro de Associado</h5>
+			     <br>
+			     <div th:each ="m:${msg}" class="container alert">
+					  <span class="red-text text-darken-2" th:text="${m}"></span>
+		   		 </div>
+			    <br>
+			   <form th:action="@{/salvarAssociado}" class="container" method="post" th:object="${associado}">
+				    <div class="row">
+				    <div class="input-field col s3">
+				 		<input id="matricula" type="text" autofocus="autofocus" th:field="*{matricula}"/>
+				 	  <label for="matricula">Matricula</label>	
+				    	
+				 	</div>	 	
+				 	
+				    <div class="input-field col s9" th:classappend="${#fields.hasErrors('nomeCompleto')} ? has-error">					
+				 	<input id="nome" type="text"  th:field="*{nomeCompleto}"/>
+				      <label for="nome">Nome</label>	
+				    
+				    </div>
+				    <div class="input-field col s3"  th:classappend="${#fields.hasErrors('cpf')} ? has-error">
+				 		<input id="cpf" type="text" maxlength="14" th:field="*{cpf}" th:onKeyPress="MascaraCPF(cpf)" />
+				 	  	  <label for="cpf">CPF</label>	
+				    
+				 	 </div>
+				    
+				 	<div class="input-field col s9">
+			          <input id="email" type="email" class="validate"  th:field="*{email}">
+			          <label for="email" >Email</label>
+			          <span class="helper-text" data-error="E-mail inválido.." data-success="right"></span>
+			        </div>
+				 	<div class="input-field col s3">
+				     <i class="material-icons prefix">phone</i>
+			          <input id="icon_telephone" type="tel" maxlength="15" class="validate"  th:field="*{telefone}" th:onKeyPress="MascaraTelefone(telefone)">
+			           <label for="icon_telephone">Telefone</label>
+			        </div>
+			          <div class="input-field col s3">
+			            <label for="numDepend">N. Dependentes</label>
+				 	    <input type="text"  id="numDepend" th:field="*{num_dependente}"/>
+				      </div>
+			        
+			          <div class="input-field col s2">
+			            <label for="margem">Margem</label>
+				 	    <input type="text"  id="margem" th:field="*{margem}"/>
+				    
+				      </div>
+				       <div class="input-field col s4">
+			               <select name="tipoAssoc" th:field="*{tipoAssociado}">
+			                  <option  th:each="tipo:${listaAssoc}"  th:value="${tipo}"  th:text="${tipo}"  th:selected="${tipo == tipoAssociado}"></option>
+				           </select>
+				        </div>
+				        <div class="row">
+						 <div class="input-field col s8">
+						  <label for="endereco">Endereço</label>
+				  		  <input type="text" id="endereco" th:field="*{endereco}" />
+					     </div>		 
+					     <div class="input-field col s4">
+						   <label for="complemento">Complemento</label>
+				  		   <input type="text" id="complemento" th:field="*{complemento}" />
+					    </div>		 
+						</div> 
+					    <div class="row">
+						 <div class="input-field col s8">
+						  <label for="cidade">Cidade</label>
+						<input type="text" id="cidade" th:field="*{cidade}" maxlength="50"/>
+						</div>		 
+					    <div class="input-field col s1">
+					      <label for="uf">UF</label>
+							<input type="text" id="uf" th:field="*{uf}" maxlength="2" />
+						</div>		 
+						 <div class="input-field col s3">
+						   <label for="cep">CEP</label>
+							<input type="text" id="cep" th:field="*{cep}" maxlength="9"  th:onKeyPress="MascaraCep(cep)"/>
+						  </div>
+						 </div>	 
+				        
+				  </div>
+				  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    
+				  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+				    <button type="reset"  class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">close</i> Cancelar</button>
+			
+			  </form>
+			  <br>
+			  </div>
+		   </div>
+     <ul class="collapsible">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Pesquisa</div>
+      <div class="collapsible-body">
+    	  <form th:action="@{/pesquisarAssociados}" method="post">
+    	    <div class="row">	
+		       <div class="input-field col s2">		  
+			     <label>Por Matricula:</label>
+			      <input type="text" name="matriculaPesquisa" value="">
+			
+			    </div>
+			
+		       <div class="input-field col s6">		  
+			     <label>Por Nome:</label>
+			      <input type="text" name="nomePesquisa" value="">
+			   </div>
+			    </div>
+		    <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button> 
+		  </form>
+		   <br>
+	  </div>
+    </li>
+  </ul>
+  <div class="container">	
+	   <h5 class="center">Listagem de Associados</h5>
+	   
+	     <div th:each ="m:${msg}" class="container alert">
+			  <span class="red-text text-darken-2" th:text="${m}"></span>
+   		 </div>
+	   
+	   <br>
+	   <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"> </div>
+	   <br>
+	   <div th:if="${total_pagina > 0}" class="pagination center"
+		    th:each="pageNumber : ${pageNumbers}">
+		    <a th:href="@{/cadastrarAssociado(size=${lista_associados.size}, page=${pageNumber})}"
+		        th:text=${pageNumber}
+		        th:class="${pageNumber==lista_associado.number + 1} ? active"></a>
+		</div>
+	   
+	   <div class="container_pequeno center">
+	  	 <div th:if="${param.message}">
+                <div class="blue-text text-darken-2 ">
+                    Arquivo gerado com sucesso!!
+                </div>
+           </div>         
+	  <!--    <a th:href="@{/relatorioAssociado}" class="waves-effect waves-light btn"><i class="material-icons left"> file_download </i>Baixar Relatorio </a> --> 
+	    </div>   
+	 <div th:if="${lista_associado.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+    <a th:href="@{/lista_associado(size=${lista_associado.size}, page=${pageNumber})}"
+        th:text=${pageNumber}
+        th:class="${pageNumber==lista_associado.number + 1} ? active"></a>
+	</div>
+	   
+	     <span class="helper-text" data-error="Registro não pode ser excluido..." data-success="right"></span>
+		
+	   
+	   	<table class="container responsive-table striped pagination">
+		 <thead class="blue lighten-5"> 
+			   <tr> 
+			    <th> Matricula </th>
+			    <th> Nome </th>
+			    <th> CPF </th>
+			    <th> Tipo </th>
+			    <th> Margem </th>
+			    <th> Deletar </th>
+			    <th> Editar </th>
+			    <th> Dependente </th>
+			   </tr>
+		</thead>
+		 <tbody>		 
+		<tr th:each="associado:${lista_associados}">
+			<td> <span th:text="${associado.matricula}"> </span></td>
+	        <td> <span th:text="${associado.nomeCompleto}"></span></td>
+			<td> <span th:text="${associado.cpf}"></span></td>
+			<td> <span th:text="${associado.tipoAssociado}"></span></td>
+			<td> <span th:text="${#numbers.formatCurrency(associado.margem)}"></span></td>
+		    <td>  <a class="waves-effect waves-light modal-trigger" data-toggle="modal" id="modalDelete"
+						 th:attr="href='#modal-associado'+*{associado.codAssociado}"><i class="material-icons left">delete</i></a>
+						 
+						  <div th:id="'modal-associado'+*{associado.codAssociado}"
+						   class="modal">
+							  <div class="modal-content">
+							    <h5>Excluir Associado
+							    
+							     </h5>
+							    
+							    <p>Confirma exclusão do associado? </p>
+							     <span th:text="${associado.nomeCompleto}"> </span>
+							  
+							  </div>
+							  <div class="modal-footer">
+							    <a href="#!" class="modal-close waves-effect  btn red">Cancelar</a>
+							    <a th:href="@{/deletarAssociado/{idAssociado}(idAssociado=${associado.codAssociado})}" class="modal-close waves-effect blue btn">Confirmar</a>
+							  </div>
+					     
+							</div>
+				
+		    </td>
+		    <td> <a  th:href="@{/editarAssociado/{idAssociado}(idAssociado=${associado.codAssociado})}"><i class="material-icons left">edit</i></a></td>
+		    <td> <a  th:href="@{/cadastrarDependente/{idAssociado}(idAssociado=${associado.codAssociado})}"><i class="material-icons left">accessibility</i></a></td>
+		
+		   </tr>  
+		 </tbody>
+		</table>
+	
+		<div th:if="${totalPagina>1}">
+		    
+		    <div class="center row col s12">
+		 
+		  	<a th:if="${paginaAtual > 1}" th:href="@{'/page/'+ ${1}}"> Inicio </a>
+		       <span th:unless="${paginaAtual  > 1}">Inicio</span>
+			
+		 	 <a th:if="${paginaAtual > 1}" th:href="@{'/page/'+ ${paginaAtual  - 1}}"> Anterior </a>
+		       <span th:unless="${paginaAtual  > 1}">Anterior</span>
+				
+		 	   <span   th:each="i: ${#numbers.sequence(paginaAtual, paginaAtual+10)}">
+		        <a  th:if="${paginaAtual != i && i <= totalPagina && paginaAtual< totalPagina}" th:href="@{'/page/'+ ${i}}"> [[${i}]]</a> 
+		       <span th:unless="${paginaAtual != i && i <= totalPagina && paginaAtual< totalPagina}">[[${i}]]</span>     
+		       </span>
+		
+		  	<a th:if="${paginaAtual+10 < totalPagina}" th:href="@{'/page/'+ ${paginaAtual +11}}"> Próxima </a>
+		       <span th:unless="${paginaAtual < totalPagina}">Próxima</span>
+		     
+		     <a th:if="${paginaAtual >= 1 && paginaAtual < totalPagina}" th:href="@{'/page/'+ ${totalPagina}}"> Última </a>
+		       <span th:unless="${paginaAtual  >=1  && paginaAtual < totalPagina}">Última</span>
+			
+		 	</div>
+		</div>
+		</div>
+	  <div id="modal-editassociado" class="modal">
+  		  <div class="modal-content">
+			 	 <h5 > Cadastro de Associado</h5>
+			     <br>
+			     <div th:each ="m:${msg}" class="container alert">
+					  <span class="red-text text-darken-2" th:text="${m}"></span>
+		   		 </div>
+			    <br>
+			   <form th:action="@{/salvarAssociado}" class="container" method="post" th:object="${associado}">
+				<input type="hidden" th:field="*{codAssociado}"/>
+				    <div class="row">
+				    <div class="input-field col s3">
+				 		<input id="matricula" type="text" autofocus="autofocus" th:field="*{matricula}"/>
+				 	  <label for="matricula">Matricula</label>	
+				    	
+				 	</div>	 	
+				 	
+				    <div class="input-field col s9" th:classappend="${#fields.hasErrors('nomeCompleto')} ? has-error">					
+				 	<input id="nome" type="text"  th:field="*{nomeCompleto}"/>
+				      <label for="nome">Nome</label>	
+				    
+				    </div>
+				    <div class="input-field col s3"  th:classappend="${#fields.hasErrors('cpf')} ? has-error">
+				 		<input id="cpf" type="text" maxlength="14" th:field="*{cpf}" th:onKeyPress="MascaraCPF(cpf)" />
+				 	  	  <label for="cpf">CPF</label>	
+				    
+				 	 </div>
+				    
+				 	<div class="input-field col s9">
+			          <input id="email" type="email" class="validate"  th:field="*{email}">
+			          <label for="email" >Email</label>
+			          <span class="helper-text" data-error="E-mail inválido.." data-success="right"></span>
+			        </div>
+				 	<div class="input-field col s3">
+				     <i class="material-icons prefix">phone</i>
+			          <input id="icon_telephone" type="tel" maxlength="15" class="validate"  th:field="*{telefone}" th:onKeyPress="MascaraTelefone(telefone)">
+			           <label for="icon_telephone">Telefone</label>
+			        </div>
+			          <div class="input-field col s3">
+			            <label for="margem">Margem</label>
+				 	    <input type="text"  id="margem" th:field="*{margem}"/>
+				    
+				      </div>
+			         <div class="input-field col s6">
+			               <select name="tipoAssoc" th:field="*{tipoAssociado}">
+			                  <option  th:each="tipo:${listaAssoc}"  th:value="${tipo}"  th:text="${tipo}"  th:selected="${tipo == tipoAssociado}"></option>
+				           </select>
+				        </div>
+				        <div class="row">
+						 <div class="input-field col s8">
+						  <label for="endereco">Endereço</label>
+				  		  <input type="text" id="endereco" th:field="*{endereco}" />
+					     </div>		 
+					     <div class="input-field col s4">
+						   <label for="complemento">Complemento</label>
+				  		   <input type="text" id="complemento" th:field="*{complemento}" />
+					    </div>		 
+						</div> 
+					    <div class="row">
+						 <div class="input-field col s8">
+						  <label for="cidade">Cidade</label>
+						<input type="text" id="cidade" th:field="*{cidade}" maxlength="50"/>
+						</div>		 
+					    <div class="input-field col s1">
+					      <label for="uf">UF</label>
+							<input type="text" id="uf" th:field="*{uf}" maxlength="2" />
+						</div>		 
+						 <div class="input-field col s3">
+						   <label for="cep">CEP</label>
+							<input type="text" id="cep" th:field="*{cep}" maxlength="9"  th:onKeyPress="MascaraCep(cep)"/>
+						  </div>
+						 </div>	 
+				        
+				  </div>
+				  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		    	  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+			      <a  th:href="@{/cancelarAssociado}" class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">close</i> Cancelar</a>
+				
+			  </form>
+			  <br>
+			  </div>
+	
+	
+	</div>
+   <div th:replace="template::footer"> </div>
+    <script>
+          $(document).ready(function () {
+        	  const elem = document.getElementById('modal-editassociado');
+        	  const instance = M.Modal.init(elem, {dismissible: false});
+        	 	   $('form input').each(
+        				    function(index){  
+        				        var input = $(this);
+        				        if (( input.attr('name')=='codAssociado') & (input.val()!='')) {
+        				        	  instance.open();
+        				        	  $('.modal-editassociado').modal();
+        				        }
+        				    }
+        				);
+        	    
+			});
+          </script>
+   
+</body>  
+</html>        
+
+

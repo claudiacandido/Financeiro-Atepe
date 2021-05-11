@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+  <meta charset="utf-8"/>
+  </head>
+ 
+<body>
+	<div th:replace="template::menu" ></div>
+	<div class="container col s12 ">
+	    <h5  class="center"> Lançamento do Período <span th:text="${lanc_periodo}"></span></h5>
+	    <br>
+	    <div th:each ="m:${msg}" class="container alert">
+		  <span class="red-text text-darken-2" th:text="${m}"></span>
+		</div>
+		<br>
+	   <div class="container_pequeno">
+		  <form th:action="@{/pesqPeriodoLancamento}" method="post">
+	      		  Periodo: <input name="periodoPesquisa"/>
+		  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons rigth">search</i>Buscar</button> 
+	    </form>
+	   </div>
+		
+
+
+		 <ul class="collapsible">
+        <li>
+	      <div class="collapsible-header"><i class="material-icons">place</i>Pesquisar</div>
+	      <div class="collapsible-body">
+	      <div class="container">
+	   	  <form th:action="@{/pesquisarLancamentos}" method="post">
+			   <div class="row">	
+		         <div class="input-field col s6">		  
+			        <select name="nomePesquisa">
+		 		  	  <option value="">Selecione o Convênio para pesquisar</option>	
+		 		 	   <option th:each="conv:${lista_convenios}"
+		                     th:value="${conv.codConvenio}" th:text="${conv.razaoSocial}"></option>
+		              </select>
+		            </div>  
+				</div>
+			  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button> 
+		    </form>
+		    </div>
+	      </div>
+	    </li>
+	    </ul>
+   	</div>
+   	<br>
+	<div class="container_pequeno center">
+   		<a class="waves-effect waves-light btn blue modal-trigger" href="#modal-cadlancamento"><i class="material-icons left">accessibility</i>Lancar Convênio</a>
+	</div>
+	<br>
+  
+      <div id="modal-cadlancamento" class="modal">
+ 	   <div class="modal-content">
+	   <br>
+  		  <h5 class="center">Incluir Lançamento</h5>
+  		<br>
+		<form th:action="@{/salvarLancamento}" class="container" method="post" th:object="${lancamento}">
+			<div class="row">	
+			   <div class="input-field col s3">
+			     Periodo:<input type="text" th:field="*{mesAno}" autofocus="autofocus" placeholder="Informe o Mês/Ano!"/>
+			    </div> 
+			    <div class="input-field col s6">
+			        Convenio::
+				    <select name="selec_conv" th:field="*{convenio.codConvenio}">
+					  <option th:each="con:${lista_convenios}" th:value="${con.codConvenio}" th:text="${con.verba}+' - '+${con.razaoSocial}"></option>
+	              </select>
+	           </div>
+		      <div class="input-field col s3">
+			      Valor Total:   <input type="text"    placeholder="0,00" th:field="*{valorTotal}"  class="validate"/>
+			 	</div>
+		     </div>  
+		      <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+		      <button type="reset" class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">clear</i> Cancelar</button>
+		 
+		   </form>
+		 <br>
+		 <br>
+	    </div>
+	</div>	
+
+	 <div th:if="${lanc_periodo!=null}">
+  
+	 <table class="container responsive-table striped">
+	 	  <thead class="blue lighten-5"> 
+		   <tr> 
+		    <th> Periodo</th>
+		    <th> Verba</th>
+		    <th> Convênio</th>
+		    <th> Valor Total</th>
+		    <th> Data Inclusão</th>
+		    <th> Editar </th>
+		    <th> Deletar </th>
+		    <th> Movimento Associado</th>		
+		   </tr>
+		 </thead>
+		
+	    <tbody>		 
+			  <tr th:each="lancamento:${lista_lancamentos}">
+			    <td> <span th:text="${lancamento.mesAno}"></span></td>
+			    <td> <span th:text="${lancamento.convenio.verba}"></span></td>
+			    <td> <span th:text="${lancamento.convenio.razaoSocial}"></span></td>				
+			    <td class="left"> <span th:text="${#numbers.formatCurrency(lancamento.valorTotal)}"></span></td>
+				<td> <span th:text="${#dates.format(lancamento.dataInclusao, 'dd/MM/yyyy')}"></span></td>			
+				<td> <a th:href="@{/editarLancamento/{idLancamento}(idLancamento=${lancamento.codLancamento})}"><i class="material-icons left">edit</i></a></td>
+				<td>
+				<a class="waves-effect waves-light modal-trigger" data-toggle="modal" id="modalDelete"
+						 th:attr="href='#modal-lancamento'+*{lancamento.codLancamento}"><i class="material-icons left">delete</i></a>
+						  <div th:id="'modal-lancamento'+*{lancamento.codLancamento}" class="modal">
+							  <div class="modal-content">
+							    <h5>Excluir Lançamento  
+							     </h5>
+							    
+							    <p>Confirma exclusão do lancamento do convênio? </p>
+							     <span th:text="${lancamento.convenio.razaoSocial}"> </span>
+							  
+							  </div>
+							  <div class="modal-footer">
+							    <a href="#!" class="modal-close waves-effect  btn red">Cancelar</a>
+							    <a th:href="@{/deletarLancamento/{idLancamento}(idLancamento=${lancamento.codLancamento})}" class="modal-close waves-effect blue btn">Confirmar</a>
+							  </div>
+					     
+							</div>
+							  
+				<td> <a th:href="@{/detalhesMovimento/{idLancamento}(idLancamento=${lancamento.codLancamento})}"><i class="material-icons left">flight</i></a></td>
+			   </tr>  
+			 </tbody>
+					
+	</table>
+	    <div id="modal-editlancamento" class="modal">
+  		  <div class="modal-content">
+  		  <br>
+  		  <h5 class="center">Alterar Lançamento</h5>
+  		  <br>
+		   <form th:action="@{/salvarLancamento}" class="container" method="post" th:object="${lancamento}">
+				<input type="hidden" th:field="*{codLancamento}"/>
+				<div class="row">	
+				   <div class="input-field col s3">
+				     Periodo:<input type="text" th:field="*{mesAno}" autofocus="autofocus" placeholder="Informe o Mês/Ano!"/>
+				    </div> 
+				    <div class="input-field col s6">
+				        Convenio::
+					    <select class ="dropdown-content" name="selec_conv" th:field="*{convenio.codConvenio}">
+						  <option th:each="con:${lista_convenios}" th:value="${con.codConvenio}" th:text="${con.verba}+' - '+${con.razaoSocial}"></option>
+		              </select>
+		           </div>
+			      <div class="input-field col s3">
+				      Valor Total:   <input type="text"    placeholder="0,00" th:field="*{valorTotal}"  class="validate"/>
+				 	</div>
+			     </div>  
+			      <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+			      <button type="reset" class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">clear</i> Cancelar</button>
+			 
+			   </form>
+			<br>
+		    </div>
+		</div>	
+	
+	 </div>
+	
+	<div th:replace="template::footer"> </div>
+	<script>
+          $(document).ready(function () {
+        	  const elem = document.getElementById('modal-editlancamento');
+        	  const instance = M.Modal.init(elem, {dismissible: false});
+        	 	   $('form input').each(
+        				    function(index){  
+        				        var input = $(this);
+        				        if (( input.attr('name')=='codLancamento') & (input.val()!='')) {
+        				        	  instance.open();
+        				        	  $('.modal-editlancamento').modal();
+        				        }
+        				    }
+        				);
+        	    
+			});
+          </script>
+   
+	</body>  
+</html>        
+
+

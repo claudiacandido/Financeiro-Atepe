@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head"/>
+ <body> 
+	 	<div th:replace="template::menu">
+	 	</div>
+
+	<h5 align="center"> Usuario</h5>
+	 <div th:each="usuario:${usuario}" align="center" class="container">
+		  <div class="row">
+		    <p> Nome:  <span th:text="${usuario.nome}"></span> </p>
+		    <p> Login: <span th:text="${usuario.login}"></span> </p>
+		    <p> Senha: <span th:text="${usuario.senha}"></span> </p>
+		  	<p> Email: <span th:text="${usuario.email}"></span> </p>
+		  
+		  </div>
+	  </div>
+	<div th:replace="template::footer"> </div>
+</body>  
+</html>  

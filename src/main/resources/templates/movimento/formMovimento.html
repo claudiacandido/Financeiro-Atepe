@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+ <meta charset="utf-8"/>
+ </head>
+ 
+<body>
+ 	<div th:replace="template::menu" >
+ 	</div>
+ 		<div class="hoverable container">
+	 	  	<h5 align="center"> Movimento dos Associados</h5>
+		    
+		    <div th:each="lancamento:${lancamento}">
+		    <p class="center"> Código do Lançamento:<span th:text="*{lancamento.codLancamento}"></span></p>
+		
+			    <p class="center">  Período:  <span th:text="${lancamento.mesAno}"></span></p>
+				<p class="center">  Convênio: <span th:text="${lancamento.convenio.verba}+' - '+${lancamento.convenio.razaoSocial}"></span></p>				
+				<p class="center">  Valor Total: <span th:text="${#numbers.formatCurrency(lancamento.valorTotal)}"></span></p>
+				<p class="center">  Data do Lançamento: <span th:text="${#dates.format(lancamento.dataInclusao, 'dd/MM/yyyy')}"></span></p>
+				</div>			
+		</div>
+		
+		<div class="container ">
+		<div th:each ="m:${msg}" class="container alert">
+			  <span class="red-text text-darken-2" th:text="${m}"></span>
+		</div>
+		<br>
+			
+			
+			<ul class="collapsible">
+    <li>
+      <div class="collapsible-header"><i class="material-icons">filter_drama</i>Cadastrar</div>
+      <div class="collapsible-body">
+      <form th:action="@{/salvarMovimento}" class="container" method="post" th:object="${movimento}">
+		 	<input type="hidden" th:field="*{codMovimento}"/>
+			   <div class="row">
+			       <label>Associado:</label>
+				    <select name="selec_assoc" th:field="*{associado.codAssociado}">
+					        <option th:each="assoc:${lista_associados}" th:value="${assoc.codAssociado}" th:text="${assoc.matricula}+' - '+${assoc.nomeCompleto}"></option>
+		            </select>
+		            
+		          </div>
+				
+				<div class="row">
+				     <div class="input-field col s3">
+				      Valor Total:   <input class= "validate" type="text" 
+				       th:field="*{valorTotal}" autofocus="autofocus"/>
+				     </div>
+				     <div class="input-field col s3">
+				 	  Valor Parcelado:<input type="text" th:field="*{valorParcela}" />
+				 	</div>
+				 	
+				 	<div class="input-field col s2">
+				 	  Qtda Parcela:<input type="number" th:field="*{quantidade}" />
+				 	</div>
+					<div class="input-field col s2">
+				 	  Data de Inclusão:<input type="date" th:field="*{dataInclusao}"/>
+				 	</div>
+				 	 </div>	
+	  	     <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+		  </form>
+		  <br>
+		</div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Importar Dados</div>
+      <div class="collapsible-body">
+         <br>
+		     <section class="my-5">
+		        <div class="container row">
+			         <div class="col-md-8 mx-auto">
+			             <h5>Importar Dados do Excel </h5>
+			              <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+			            <form th:action="@{/importeDados}" enctype="multipart/form-data" method="post">
+					    <div class="file-field col s10">
+					      <div class="waves-effect waves-light btn blue lighten-2">
+					       <span> Click aqui... </span>
+					        <input type="file" name="arquivoImportado" required>
+					      </div>
+					      <div class="file-path-wrapper">
+					        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+					      </div>
+					   </div>
+					    <div  class="center row">
+						    <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Gerar Importação</button>
+			   	         </div>
+				       </form>
+					</div>
+				</div>			           
+	      </section>	           
+	        <br>
+	 </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><i class="material-icons">whatshot</i>Pesquisar</div>
+      <div class="collapsible-body">
+      	   <div class="container">
+				  <form th:action="@{/pesquisarMovimento}" method="post">
+				  	<div class="row">	
+						<div class="input-field col s6">		  
+			       	    <select name="nomePesquisa">
+			 			        <option th:each="assoc:${lista_associados}"
+			                     th:value="${assoc.codAssociado}" th:text="${assoc.nomeCompleto}"></option>
+			              </select>
+						</div>	    
+				    </div>
+				  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button> 
+			    </form>
+			   </div>
+		
+	      
+	      </div>
+	    </li>
+	     <li>
+	      <div class="collapsible-header"><i class="material-icons">place</i>Limpar Movimento</div>
+	       <div class="collapsible-body">
+			   <div class="container_pequeno row center">
+			    <form th:action="@{/limparMovimento}" method="post">
+	              <div class="row">	
+		              <div class="input-field col s6">		  
+			    	      Periodo:
+			    	    <input name="periodoPesquisa"/>
+			    	  </div>
+			    	</div>	
+				  <div class="row">
+				  <div class="input-field col s6">		  
+			    	 <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons rigth">search</i>Confirmar</button> 
+				 </div>
+				  </div>
+				  </form>
+				</div>	
+			   <br>
+		  </div>
+		 </li>	
+	  </ul>
+	  </div>
+     <div class="container_pequeno row center">
+        <a class="waves-effect waves-light btn blue" th:href="@{/cadastrarLancamento}"><i class="material-icons left">arrow_back</i>Retorno para Lançamentos</a>
+			</div>	
+	         <br>
+			  <br>
+		<h5 class="center"> Listagem de Movimentos</h5>
+
+			 <br>
+
+			<div>   
+			 <div th:if="${lista_movimentos.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+		    	<a th:href="@{/lista_movimentos(size=${lista_movimentos.size}, page=${pageNumber})}"
+		        th:text=${pageNumber}
+		        th:class="${pageNumber==lista_movimentos.number + 1} ? active"></a>
+			</div>
+		
+			
+		  	<table class="container responsive-table striped">
+			 <thead> 
+			   <tr> 
+			    <th> Matricula </th>
+			    <th> Associado</th>
+			    <th> Valor Total</th>
+			    <th> Valor da Parcela </th>
+			    <th> Qtda Parcelas</th>
+			    <th> Data da Inclusão</th>
+			    <th> Deletar </th>
+			
+			   </tr>
+			 </thead>
+			 <tbody>		 
+			  <tr th:each="movimento:${lista_movimentos}">
+					<td> <span th:text="${movimento.associado.matricula}"> </span></td>
+					<td> <span th:text="${movimento.associado.nomeCompleto}"> </span></td>
+					<td> <span th:text="${#numbers.formatCurrency(movimento.valorTotal)}"></span></td>
+					<td> <span th:text="${#numbers.formatCurrency(movimento.valorParcela)}"></span></td>
+					<td> <span th:text="${movimento.quantidade}"></span></td>
+					<td> <span th:text="${#dates.format(movimento.dataInclusao, 'dd/MM/yyyy')}"></span></td>
+					<td>
+					
+					  <a class="waves-effect waves-light modal-trigger" data-toggle="modal" id="modalDelete"
+						 th:attr="href='#modal-movimento'+*{movimento.codMovimento}"><i class="material-icons left">delete</i></a>
+						 
+						  <div th:id="'modal-movimento'+*{movimento.codMovimento}"
+						   class="modal">
+							  <div class="modal-content">
+							    <h5>Excluir Movimento do Associado
+							    
+							     </h5>
+							    
+							    <p>Confirma exclusão do movimento do associado? </p>
+							     <span th:text="${movimento.associado.nomeCompleto}"> </span>
+							  
+							  </div>
+							  <div class="modal-footer">
+							    <a href="#!" class="modal-close waves-effect  btn red">Cancelar</a>
+							    <a th:href="@{/deletarMovimento/{idMovimento}(idMovimento=${movimento.codMovimento})}" class="modal-close waves-effect blue btn">Confirmar</a>
+							  </div>
+					     
+							</div>
+					</td>					    
+				 </tr>  
+			</tbody>
+			</table>
+			
+		<div th:if="${totalPagina>1}">
+		   <div class="center row col s12">
+		 
+		  	<a th:if="${paginaAtual > 1}" th:href="@{'/pageMov/'+ ${1}}"> Inicio </a>
+		       <span th:unless="${paginaAtual  > 1}">Inicio</span>
+			
+		 	 <a th:if="${paginaAtual > 1}" th:href="@{'/pageMov/'+ ${paginaAtual  - 1}}"> Anterior </a>
+		       <span th:unless="${paginaAtual  > 1}">Anterior</span>
+				
+		 	   <span   th:each="i: ${#numbers.sequence(paginaAtual, paginaAtual+10)}">
+		        <a  th:if="${paginaAtual != i && i <= totalPagina && paginaAtual< totalPagina}" th:href="@{'/pageMov/'+ ${i}}"> [[${i}]]</a> 
+		       <span th:unless="${paginaAtual != i && i <= totalPagina && paginaAtual< totalPagina}">[[${i}]]</span>     
+		       </span>
+		
+		  	<a th:if="${paginaAtual+10 < totalPagina}" th:href="@{'/pageMov/'+ ${paginaAtual +11}}"> Próxima </a>
+		       <span th:unless="${paginaAtual < totalPagina}">Próxima</span>
+		     
+		     <a th:if="${paginaAtual >= 1 && paginaAtual < totalPagina}" th:href="@{'/pageMov/'+ ${totalPagina}}"> Última </a>
+		       <span th:unless="${paginaAtual  >=1  && paginaAtual < totalPagina}">Última</span>
+			
+		 	</div>
+		
+		</div>
+		
+		
+			
+	   </div>
+	 
+	<div th:replace="template::footer"> </div>
+	
+</body>  
+</html>        
+

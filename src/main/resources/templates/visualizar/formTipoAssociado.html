@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+ <meta charset="utf-8"/>
+ </head>
+ 
+<body>
+ 	<div th:replace="template::menu" >
+ 	</div>
+		  <div class="container_pequeno">
+			  		
+		<h5 class="center"> Lista de Associado por Tipo <span th:text="${tipoAssociado}"></span></h5>
+			<div th:each ="m:${msg}" class="container alert">
+				  <span class="red-text text-darken-2" th:text="${m}"></span>
+			</div>
+			<br>
+			 <br>
+			     <form th:action="@{${pageContext.request.contextPath}/pesquisarTipoAssociado}" th:target="_blank" method="post">
+			        <div class="input-field col s2">
+				    	      <p>Tipo de Associado:</p> 
+				 	 </div> 
+				  	 <div class="input-field col s6">
+			     	     <select name="nomePesquisa">
+			     	     	    <option  th:each="tipo:${listaAssoc}"  th:value="${tipo}"  th:text="${tipo}"></option>
+				           </select>
+				     </div>
+				  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button> 
+			    </form>
+			   </div>
+			  <br>
+			 <br>
+		    <div class="container">
+	      	<table class="container responsive-table striped">
+			 <thead> 
+			   <tr> 
+			    <th> Matricula</th>
+			    <th> Nome</th>
+			    <th> CPF: </th>
+			    <th> Margem</th>
+			    
+			   </tr>
+			 </thead>
+			 <tbody>		 
+			  <tr th:each="associado:${lista_associados}">
+					<td> <span th:text="${associado.matricula}"> </span></td>
+					<td> <span th:text="${associado.nomeCompleto}"> </span></td>
+					<td> <span th:text="${associado.cpf}"></span></td>
+					<td> <span th:text="${#numbers.formatCurrency(associado.margem)}"></span></td>
+			</tr>  
+			</tbody>
+			</table>
+	  </div>
+	<div th:replace="template::footer"> </div>
+	
+</body>  
+</html>        
+

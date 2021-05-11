@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+  <meta charset="utf-8"/>
+  </head>
+ 
+<body>
+	<div th:replace="template::menu" >
+	</div>
+	<div class="container col s12 ">
+	    <h5  class="center"> Fechamento do Mês <span th:text="${lanc_periodo}"></span></h5>
+	    <br>
+	    <div th:each ="m:${msg}" class="container alert">
+		  <span class="red-text text-darken-2" th:text="${m}"></span>
+		</div>
+		<br>
+	   <div class="container_pequeno">
+		  <form th:action="@{/pesqPeriodoFechamento}" method="post">
+	              <div>		  
+		    	   Período: <input name="periodoPesquisa"/>
+		    	  </div>
+		  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons rigth">search</i>Buscar</button> 
+	    </form>
+	   </div>
+		 <div id="modal-pagaFechamento" class="modal">
+  		  <div class="modal-content">
+	 	   <h5  class="center"> Pagamento do Associado no Período </h5>
+			<br>
+		  <form th:action="@{/salvarFechamento}" class="container" method="post" th:object="${fechamento}">
+			<input type="hidden" th:field="*{codFechamento}"/>
+			<input type="hidden" th:field="*{associado.codAssociado}"/>
+	
+			<div class="row">	
+			   <div class="input-field col s3">
+			     Periodo:<input type="text" th:field="*{periodo}" readonly="readonly"/>
+			    </div> 
+			     <div  class="input-field col s2">
+			    	 Matricula:
+			    	 <input type="text" th:field="*{associado.matricula}" readonly="readonly"/>
+			    </div>
+			      <div  class="input-field col s7">
+			    	 Nome do Associado:
+			    	 <input type="text" th:field="*{associado.nomeCompleto}" readonly="readonly"/>
+			    </div>
+	           </div>
+	           <div class="row">
+		       <div class="input-field col s3">
+			      Valor Total:   <input type="text"    placeholder="0,00" th:field="*{valorTotal}"  readonly="readonly"/>
+			 	</div>
+			 	<div class="input-field col s3">
+			      Valor da Folha:   <input type="text"    placeholder="0,00" th:field="*{valorFolha}" readonly="readonly"/>
+			 	</div>
+		     
+		      <div class="input-field col s3">
+			      Valor do Boleto:   <input type="text"    placeholder="0,00" th:field="*{valorBoleto}"  readonly="readonly"/>
+			 	</div>
+		     
+		       <div class="input-field col s3">
+			      Valor Devido:   <input type="text"    placeholder="0,00" th:field="*{valorDevido}"  readonly="readonly"/>
+			 	</div>
+				<div class="input-field col s3">
+				  Data de Inclusão: <input type="date" th:field="*{dataInclusao}"  readonly="readonly"/>
+			 	</div>
+			 
+		      <div class="input-field col s3">
+			      Valor Pago:   <input type="text" autofocus="autofocus" placeholder="0,00" th:field="*{valorPago}"  class="validate"/>
+			   	</div>
+		       <div class="input-field col s3">
+				  Data de Pagamento: <input type="text" th:field="*{dataPagamento}" />
+			 	</div>
+			 
+		     </div>  
+		    
+		      <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+		  	  <a  th:href="@{/cancelarFechamento}" class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">close</i> Cancelar</a>
+		
+		   </form>
+		
+	    </div>
+	  </div>
+	    
+	 <ul class="collapsible">
+    	<li>
+          <div class="collapsible-header"><i class="material-icons">place</i>Pesquisar Associado</div>
+	      <div class="collapsible-body">
+	      <div class="container">
+	   	  <form th:action="@{/pesquisarFechamento}" method="post">
+			    <div class="row">	
+			       	 <div class="input-field col s6">
+			     	     <label>Por Matricula:</label>
+					      <input type="text" name="matriculaPesquisa" value="">
+					
+   					  </div>
+				     <div class="input-field col s6">		  
+			    	    <select name="nomePesquisa">
+		 					<option value="">Selecione o Associado para pesquisar</option>	
+		 			        <option th:each="assoc:${lista_associados}"
+		                     th:value="${assoc.codAssociado}" th:text="${assoc.nomeCompleto}"></option>
+		              </select>
+		            </div>
+		        </div>
+			  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button> 
+		    </form>
+		    </div>
+	      </div>
+	    </li>
+	    <li>
+	      <div class="collapsible-header"><i class="material-icons">place</i>Efetuar Fechamento</div>
+	       <div class="collapsible-body">
+			   <div class="container_pequeno row center">
+			    <form th:action="@{/efetuarFechamento}" method="post">
+	              <div class="row">	
+		              <div class="input-field col s6">		  
+			    	      Periodo:
+			    	    <input name="periodoPesquisa"/>
+			    	  </div>
+			    	</div>	
+				  <div class="row">
+				  <div class="input-field col s6">		  
+			    	 <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons rigth">search</i>Confirmar</button> 
+				 </div>
+				  </div>
+				  </form>
+				</div>	
+			   <br>
+		  </div>
+		 </li>	
+		  <li>
+	      <div class="collapsible-header"><i class="material-icons">place</i>Importar Pagamento</div>
+	       <div class="collapsible-body">
+			 <br>
+		     <section class="my-5">
+		        <div class="container row">
+			         <div class="col-md-8 mx-auto">
+			             <h5>Importar Dados do Excel </h5>
+			              <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>
+			            <form th:action="@{/importarPagamentos}" enctype="multipart/form-data" method="post">
+			             <div class="row">	
+				              <div class="input-field col s6">		  
+					    	      Periodo:
+					    	    <input name="periodoPesquisa"/>
+					    	  </div>
+					    	</div>	
+						  <div class="file-field col s10">
+					      <div class="waves-effect waves-light btn blue lighten-2">
+					       <span> Click aqui... </span>
+					        <input type="file" name="arquivoImportado" required>
+					      </div>
+					      <div class="file-path-wrapper">
+					        <input class="file-path validate" type="text" placeholder="Upload one or more files">
+					      </div>
+					   </div>
+					    <div  class="center row">
+						    <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Gerar Importação</button>
+			   	         </div>
+				       </form>
+					</div>
+				</div>			           
+	        </section>	           
+	        <br>
+	       </div>
+			   <br>
+		 </li>	
+	    </ul>
+	   </div>
+	   <br>
+	   <br>
+	   <div th:if="${lanc_periodo!=null}">
+  
+	   <div th:if="${lista_fechamentos.totalPages > 0}" class="pagination" th:each="pageNumber : ${pageNumbers}">
+		    <a th:href="@{/lista_fechamentos(size=${lista_fechamentos.size}, page=${pageNumber})}"
+		        th:text=${pageNumber}
+		        th:class="${pageNumber==lista_fechamentos.number + 1} ? active"></a>
+		</div>
+			   
+	 <table class="container responsive-table striped">
+	 	  <thead class="blue lighten-5"> 
+		   <tr> 
+		    <th> Periodo</th>
+		    <th> Matricula</th>
+		    <th> Nome</th>
+		    <th> Valor Total</th>
+		    <th> Valor Em Folha</th>
+		    <th> Valor Boleto</th>
+		    <th> Valor Devido</th>
+		    <th> Situação</th>		
+		   </tr>
+		 </thead>
+		
+	    <tbody>		 
+			  <tr th:each="fechamento:${lista_fechamentos}">
+			    <td> <span th:text="${fechamento.periodo}"></span></td>
+			    <td> <span th:text="${fechamento.associado.matricula}"></span></td>
+			    <td> <span th:text="${fechamento.associado.nomeCompleto}"></span></td>
+			    <td> <span th:text="${#numbers.formatCurrency(fechamento.valorTotal)}"></span></td>
+			    <td> <span th:text="${#numbers.formatCurrency(fechamento.valorFolha)}"></span></td>
+			    <td> <span th:text="${#numbers.formatCurrency(fechamento.valorBoleto)}"></span></td>
+			    <td> <span th:text="${#numbers.formatCurrency(fechamento.valorDevido)}"></span></td>
+			    
+		        <td th:if="${fechamento.valorPago==null && fechamento.valorDevido >0}" > <a th:href="@{/editarFechamento/{idFechamento}(idFechamento=${fechamento.codFechamento})}"><i class="material-icons left">attach_money</i></a> </td>
+		        <td th:if="${fechamento.valorPago>0 || fechamento.valorDevido<1}" > <a th:href="@{/editarFechamento/{idFechamento}(idFechamento=${fechamento.codFechamento})}"><i class="material-icons left">check</i></a></td>
+		       </tr>  
+			 </tbody>
+					
+	</table>
+		<div th:if="${totalPagina>1}">
+		   <div class="center row col s12">
+		 
+		  	<a th:if="${paginaAtual > 1}" th:href="@{'/pageFecha/'+ ${1}}"> Inicio </a>
+		       <span th:unless="${paginaAtual  > 1}">Inicio</span>
+			
+		 	 <a th:if="${paginaAtual > 1}" th:href="@{'/pageFecha/'+ ${paginaAtual  - 1}}"> Anterior </a>
+		       <span th:unless="${paginaAtual  > 1}">Anterior</span>
+				
+		 	   <span   th:each="i: ${#numbers.sequence(paginaAtual, paginaAtual+10)}">
+		        <a  th:if="${paginaAtual != i && i <= totalPagina && paginaAtual< totalPagina}" th:href="@{'/pageFecha/'+ ${i}}"> [[${i}]]</a> 
+		       <span th:unless="${paginaAtual != i && i <= totalPagina && paginaAtual< totalPagina}">[[${i}]]</span>     
+		       </span>
+		
+		  	<a th:if="${paginaAtual+10 < totalPagina}" th:href="@{'/pageFecha/'+ ${paginaAtual +11}}"> Próxima </a>
+		       <span th:unless="${paginaAtual < totalPagina}">Próxima</span>
+		     
+		     <a th:if="${paginaAtual >= 1 && paginaAtual < totalPagina}" th:href="@{'/pageFecha/'+ ${totalPagina}}"> Última </a>
+		       <span th:unless="${paginaAtual  >=1  && paginaAtual < totalPagina}">Última</span>
+			
+		 	</div>
+		
+		</div>
+		
+		</div>
+	<div th:replace="template::footer"> </div>
+	
+	<script>
+          $(document).ready(function () {
+        	  const elem = document.getElementById('modal-pagaFechamento');
+        	  const instance = M.Modal.init(elem, {dismissible: false});
+        	 	   $('form input').each(
+        				    function(index){  
+        				        var input = $(this);
+        				        if (( input.attr('name')=='codFechamento') & (input.val()!='')) {
+        				        	  instance.open();
+        				        	  $('.modal-pagaFechamento').modal();
+        				        }
+        				    }
+        				);
+        	    
+			});
+          </script>
+   
+	</body>  
+</html>        
+
+

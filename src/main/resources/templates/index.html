@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+ <head th:replace="template::html_head">
+ <meta charset="utf-8"/>
+ </head>
+ 
+<body>
+ 	<div th:replace="template::menu" >
+ 	</div>
+ 	<!-- Conteudo dinamico -->
+	<div  th:replace="template::conteudo">
+ 	<h2> Bem vindo ao Sistema</h2>
+	</div>
+	<div th:replace="template::footer"> </div>
+  
+</body>  
+</html>        
+
+

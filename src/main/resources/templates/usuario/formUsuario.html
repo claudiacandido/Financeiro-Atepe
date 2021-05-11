@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+   <meta charset="utf-8"/>
+ </head>
+ 
+<body>
+	<div th:replace="template::menu" ></div>
+	<ul class="collapsible">
+    <li class="active">
+      <div class="collapsible-header"><i class="material-icons">accessibility</i>Cadastro</div>
+      <div class="collapsible-body">
+   	
+		<div class="hoverable container ">
+		<br>
+	    <h5 class="center"> Cadastro de Usuário</h5>
+	    <br>
+	    <div th:each ="m:${msg}" class="container alert  red lighten-5">
+		  <span class="red-text text-darken-2" th:text="${m}"></span>
+		</div>
+		<br>
+		
+		<form th:action="@{/salvarUsuario}" class="container" method="post" th:object="${usuario}">
+			<input type="hidden" th:field="*{codigo}"/>
+			
+			<div class="row">
+		    <div  class="input-field col s9 has-errors">
+		      Nome:<input type="text"  th:field="*{nome}" autofocus="autofocus" placeholder="Informe o nome !"/>
+		    </div>
+		    <div class="input-field col s3 validate">
+		 	  Login:<input type="text" th:field="*{login}" />
+		 	  <span class="helper-text" data-error="Login inválido.." data-success="right"></span>
+		 	 </div>
+		 	
+		     <div class="input-field col s6">
+		 		Email:<input type="email"  th:field="*{email}"/>
+		 		
+		 	</div>
+		 	 <div class="input-field col s3">
+		 	 	 	Senha:<input type="password"  th:field="*{senha}" required="required"/>
+		 	 </div>
+		 	  <div class="input-field col s3">
+		 	  <label > 
+		 	 	 	<input type="checkbox"  name="ativo" th:checked="*{ativo}"/>
+		 	 	 	<span>Ativo</span>
+		 	 	</label>
+		 	 </div>	 	
+			  </div>
+	     	<button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+	       <a  th:href="@{/cancelarUsuario}" class="waves-effect waves-light btn red lighten-2"><i class="material-icons right">clear</i> Cancelar</a>
+			  
+	   </form>
+	   <br>
+	   </div>
+	   </div>
+	   </li>
+	   <li>
+      <div class="collapsible-header"><i class="material-icons">place</i>Pesquisa</div>
+      <div class="collapsible-body">
+  
+	   <br>
+	   <div class="container">
+		  <form th:action="@{/pesquisarUsuarios}" method="post">
+		    <div class="row">	
+		       <div class="input-field col s6">		  
+					<label>Pesquisa por nome:</label>
+				    <input type="text" name="nomepesquisa" value="">
+				  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">search</i>Buscar</button>
+		  	  </div>
+		  </div>  
+	    </form>
+	   </div>
+	   <br>
+	   </div>
+	   </li>
+	   </ul>
+	   <br>
+		 <h5 class="center"> Listagem de Usuário</h5>
+	    <br>
+	   
+	   	<table class="container responsive-table striped">
+		 <thead class="blue lighten-5"> 
+		   <tr> 
+		    <th> Nome </th>
+		    <th> Login </th>
+		    <th> Email </th>
+	        <th> Deletar </th>
+		    <th> Editar </th>
+		   
+		   </tr>
+		 </thead>
+		 <tbody>		 
+			  <tr th:each="usuario:${lista_Usuarios}">
+				<td> <a th:href="${(#mvc.url('UC#detalhesUsuario').arg(0,usuario.codigo)).build()}"> <span th:text="${usuario.nome}"> </span> </a></td>
+				<td> <span th:text="${usuario.login}"></span></td>
+				<td> <span th:text="${usuario.email}"></span></td>
+				<td>
+				<a class="waves-effect waves-light modal-trigger" data-toggle="modal" id="modalDelete"
+						 th:attr="href='#modal-usuario'+*{usuario.codigo}"><i class="material-icons left">delete</i></a>
+						 
+						  <div th:id="'modal-usuario'+*{usuario.codigo}"
+						   class="modal">
+							  <div class="modal-content">
+							    <h5>Excluir Usuário
+							    
+							     </h5>
+							    
+							    <p>Confirma exclusão do usuário? </p>
+							     <span th:text="${usuario.nome}"> </span>
+							  
+							  </div>
+							  <div class="modal-footer">
+							    <a href="#!" class="modal-close waves-effect  btn red">Cancelar</a>
+							    <a th:href="@{/deletarUsuario/{idUsuario}(idUsuario=${usuario.codigo})}" class="modal-close waves-effect blue btn">Confirmar</a>
+							  </div>
+					     
+							</div>
+				
+				<td> <a th:href="@{/editarUsuario/{idUsuario}(idUsuario=${usuario.codigo})}"><i class="material-icons left">edit</i></a></td>
+			   </tr>  
+			 </tbody>
+		</table>
+	<div th:replace="template::footer"> </div>
+</body>  
+</html>        

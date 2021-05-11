@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.15.0.final using JasperReports Library version 6.15.0-dd49bfb94918336b8321d5507193f0169ead4e95  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagamentoConvenio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c4906f39-c925-4278-a9ee-50bdfd9731c2">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[c2ZhX2Nvbl9jb252ZW5pbyAsMjExLDE1LDRhMzE4MWNhLTYzMDItNDA3ZC04NzFjLTdlYWRiNWY5
+NmFmMjtzZmFfbGFuX2xhbmNhbWVudG8gLDE1LDY3LGE3NWY0MzcyLWM0MTUtNGFmNi05MWM0LTc3
+ZTRkNTY4MTNkNDs=]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Atepe"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT sfa_lan_lancamento.sfa_lan_mes_ano_pg AS mesano,
+	sfa_lan_lancamento.sfa_lan_valor_pago AS valorPago,
+	sfa_lan_lancamento.sfa_lan_valor_total AS valorTotal,
+	sfa_mov_data_pagamento AS dataPagamento,
+	sfa_con_convenio.sfa_con_nome,
+	sfa_lan_lancamento.sfa_lan_numero_credito,
+	sfa_lan_lancamento.sfa_lan_observacao
+FROM sfa_lan_lancamento
+	INNER JOIN sfa_con_convenio ON 
+	 sfa_lan_lancamento.sfa_con_id = sfa_con_convenio.sfa_con_id]]>
+	</queryString>
+	<field name="mesAno" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="mesano"/>
+		<property name="com.jaspersoft.studio.field.label" value="mesano"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_lan_lancamento"/>
+	</field>
+	<field name="valorPago" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valorpago"/>
+		<property name="com.jaspersoft.studio.field.label" value="valorpago"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_lan_lancamento"/>
+	</field>
+	<field name="valorTotal" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="valortotal"/>
+		<property name="com.jaspersoft.studio.field.label" value="valortotal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_lan_lancamento"/>
+	</field>
+	<field name="dataPagamento" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.name" value="datapagamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="datapagamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_lan_lancamento"/>
+	</field>
+	<field name="convenio.nomeResumido" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="sfa_con_nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="sfa_con_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sfa_con_convenio"/>
+	</field>
+	<field name="numCheque" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="numCheque"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="NumCheque"/>
+	</field>
+	<field name="observacao" class="java.lang.String">
+		<property name="net.sf.jasperreports.sql.field.column.name" value="observacao"/>
+		<property name="net.sf.jasperreports.sql.field.column.label" value="Observacao"/>
+	</field>
+	<variable name="vTotal" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorTotal}]]></variableExpression>
+	</variable>
+	<variable name="vPago" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorPago}]]></variableExpression>
+	</variable>
+	<background>
+		<band height="8" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="99" splitType="Stretch">
+			<staticText>
+				<reportElement x="70" y="10" width="370" height="30" uuid="1ad672e4-e038-4662-bde1-119e9c82f7c9"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lançamento dos Convênios no período]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="440" y="50" width="110" height="30" uuid="9194b866-6b9b-4dc3-867b-92af23b1b25c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página: " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="42" width="100" height="30" uuid="9deceaca-6583-49e7-8c34-f2795eae1f60"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mesAno}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="450" y="20" width="100" height="20" uuid="71405823-625c-4cf0-aded-e3455ee04012"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="26">
+			<staticText>
+				<reportElement x="20" y="3" width="100" height="16" uuid="2a1489c1-9da6-41d1-bc1a-f4fd27302e97"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONVÊNIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="3" width="100" height="16" uuid="576d34bc-9df2-4cb5-9836-421b05cd109c"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="23" width="550" height="1" uuid="313999d7-24e6-4129-b7bc-a4d22132c829"/>
+			</line>
+			<staticText>
+				<reportElement x="506" y="0" width="100" height="26" uuid="d1adb28b-2ba5-4c02-bb04-9e244c70224a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d1d9fc0-1123-4968-9183-8f9803bfbd14"/>
+				</reportElement>
+				<text><![CDATA[numCheque]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="148" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="3" width="210" height="17" forecolor="#1631B8" uuid="32bd0f21-698d-440d-a88b-9fea53494d81"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{convenio.nomeResumido}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,#00.00;¤-#,#00.00" isBlankWhenNull="true">
+				<reportElement x="230" y="3" width="100" height="17" forecolor="#1631B8" uuid="c1f73ad2-2222-40ec-a5f3-d65b0ac32d01"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,#00.00;¤-#,#00.00" isBlankWhenNull="true">
+				<reportElement x="120" y="30" width="80" height="17" isRemoveLineWhenBlank="true" uuid="71848616-2df9-4f6c-90e3-8afa2758be98">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2510f8c2-7428-473c-9760-2ba0059c812f"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="294" y="30" width="70" height="16" isRemoveLineWhenBlank="true" uuid="57ac0f30-931d-46f0-a4e3-e50194349407">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c6cd76fa-6213-4987-bea2-fd3acc471e5d"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataPagamento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="20" y="30" width="100" height="16" uuid="c8519f89-30a4-450e-998d-5afed59ca3ca">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2510f8c2-7428-473c-9760-2ba0059c812f"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VAL.PAGO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="30" width="75" height="16" uuid="a4f880b0-63a8-4038-89d0-8ea2d01bb880">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c6cd76fa-6213-4987-bea2-fd3acc471e5d"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DT. PAGTO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="30" width="75" height="16" uuid="768513e7-894d-493d-9e61-5ee5371c9612">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2510f8c2-7428-473c-9760-2ba0059c812f"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUM.CHEQUE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="85" y="60" width="83" height="20" uuid="a71c2bc3-64a9-4d9e-975d-21b57e1595b8"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HISTÓRICO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="455" y="30" width="100" height="16" uuid="6202b8ff-4ecc-4c39-8224-d1c24e5d6117">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="8d1d9fc0-1123-4968-9183-8f9803bfbd14"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{numCheque}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="60" width="365" height="70" uuid="19bdb31d-475e-4b98-b6d7-b34299edf900">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="dc853ba1-7d02-4fea-bc17-c55a03410b1e"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{observacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="123" splitType="Prevent">
+			<textField pattern="¤#,#00.00;¤-#,#00.00">
+				<reportElement x="200" y="18" width="100" height="20" uuid="7ca40f6a-7751-4352-8cb5-d87732dee475"/>
+				<textElement textAlignment="Right">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vTotal}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,#00.00;¤-#,#00.00" isBlankWhenNull="true">
+				<reportElement x="340" y="18" width="100" height="20" uuid="27e935f0-6135-4218-a662-02ff9ab257f2">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{vPago}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="90" y="20" width="100" height="20" uuid="a629edd6-8f8d-4431-9f08-447ecd136a09"/>
+				<textElement textAlignment="Right">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Geral...:]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

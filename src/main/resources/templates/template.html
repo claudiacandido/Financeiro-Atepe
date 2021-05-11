@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:fragment="html_head">
+<title>Controle Financeiro da Atepe</title>
+<!--Import Google Icon Font-->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<!--Import materialize.css-->
+<link type="text/css" rel="stylesheet" th:href="@{/materialize/css/materialize.min.css}" />
+<link type="text/css" rel="stylesheet" th:href="@{/style/style.css}" />
+<!--Let browser know website is optimized for mobile-->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+	<div th:fragment="menu">
+		<div class="navbar-fixed">
+			<nav class="blue">
+				<div class="nav-wrapper">
+					<a href="/" class="right brand-logo">ATEPE</a> 
+					<a 	data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+						<ul class="left hide-on-med-and-down">	
+					   <li>
+					   	<a class="dropdown-trigger"  data-target="dropdown-tab">Tabelas
+							   	<i class="material-icons right">arrow_drop_down</i></a>
+					</li><li>
+					    <a class="dropdown-trigger"  data-target="dropdown-pro">Processamentos
+							   	<i class="material-icons right">arrow_drop_down</i></a>
+					</li><li>	
+					    <a class="dropdown-trigger" data-target="dropdown-con">Consultas
+								<i class="material-icons right">arrow_drop_down</i></a>
+					</li><li>
+								<a class="dropdown-trigger" data-target="dropdown-rel">	Relatórios 
+								<i class="material-icons right">arrow_drop_down</i>
+								</a>
+				</li> <li>	<a th:href="@{/logout}">Sair</a>
+				</li> 
+				 	
+		    	</ul>
+				</div>
+			</nav>
+		
+		  
+			<!-- Submenu Dropdown Structure -->
+			<ul id="dropdown-tab" class="dropdown-content">
+				<li><a th:href="@{/cadastrarUsuario}"><i class="material-icons left">accessibility</i>Usuário</a></li>
+				<li class="divider"></li>
+				<li><a th:href="@{/cadastrarAssociado}"><i class="material-icons left">face</i>Associado</a></li>
+				<li class="divider"></li>
+				<li><a th:href="@{/cadastrarConvenio}"><i class="material-icons left">event_note</i>Convênio</a></li>
+				<li class="divider"></li>
+				<li><a th:href="@{/cadastrarParametro}"><i class="material-icons left">event_note</i>Parametro</a></li>
+				<li class="divider"></li>
+				<li><a th:href="@{/cadastrarVinculo}"><i class="material-icons left">event_note</i>Vinculo</a></li>
+				<li><a th:href="@{/cadastrarDespesa}"><i class="material-icons left">event_note</i>Despesa</a></li>
+		
+			</ul>
+
+			<ul id="dropdown-pro" class="dropdown-content">
+				<!-- Submenu Dropdown Structure -->
+				<li><a th:href="@{/cadastrarLancamento}"><i class="material-icons left">file_upload</i>Lançamento de Convênio</a></li>
+				<li class="divider"></li>
+			 	<li><a th:href="@{/cadastrarFechamento}"><i class="material-icons left">file_download</i>Fechamento do Período</a></li>
+				<li class="divider"></li>
+			 	<li><a th:href="@{/cadastrarDespesaAtepe}"><i class="material-icons left">file_download</i>Despesas do Período</a></li>
+			
+			</ul>
+			<ul id="dropdown-con" class="dropdown-content">
+				<!-- Submenu Dropdown Structure -->
+				<li><a th:href="@{/consultarExtrato}"><i class="material-icons left">format_list_bulleted</i>Extrato de Associado</a></li>
+				<li class="divider"></li>
+				<li><a th:href="@{/fazerPagamento}"><i class="material-icons left">library_books</i>Pagamento de Convênio</a></li>
+				<li class="divider"></li>
+			  	<li><a th:href="@{/consTipoPagto}"><i class="material-icons left">line_weight</i>Por Tipo de Pagamento</a></li>
+				<li class="divider"></li>
+				<li><a th:href="@{/consTipoAssociado}"><i class="material-icons left">local_library</i>Por Tipo do Associado</a></li>
+				<li class="divider"></li>
+			</ul>
+			<!-- Submenu Dropdown Structure -->
+			<ul id="dropdown-rel" class="dropdown-content">
+				<li><a th:href="@{/consFechamentoPeriodo}"><i class="material-icons left">lock_outline</i>Fechamento do Período</a></li>
+				<li class="divider"></li>
+				<li><a th:href="consExtratoPeriodo"><i class="material-icons left">local_atm</i>Extrato de Movimentação</a></li>
+				<li class="divider"></li>			
+				<li><a th:href="consConvenioPeriodo"><i class="material-icons left">message</i>Lançamentos dos Convênios</a></li>
+				<li class="divider"></li>								
+				<li><a th:href="@{/consPagAssocPeriodo}"><i class="material-icons left">done_all</i>Pagamento(Associados) efetuados</a></li>
+				<li class="divider"></li>
+				<li><a th:href="@{/consRecAssocPeriodo}"><i class="material-icons left">monetization_on</i>Pagamento(Associados) a receber</a></li>
+				
+			</ul>
+		   
+		</div>
+		<div>
+			<ul class="sidenav" id="mobile-demo">
+				<li><a th:href="@{/cadastrarUsuario}">Usuário</a></li>
+				<li><a th:href="@{/cadastrarAssociado}">Associado</a></li>
+				<li><a th:href="@{/cadastrarConvenio}">Convênio</a></li>
+				<li><a th:href="@{/cadastrarLancamento}">Lançamento</a></li>
+				<li><a th:href="@{/cadastrarFechamento}">Fechamento</a></li>   
+				<li><a th:href="@{/consultarExtrato}">Extrato</a></li>
+				<li><a th:href="@{/fazerPagamento}">Pagamento</a></li>
+
+			</ul>
+
+		</div>
+		
+	</div>
+	<!-- Conteudo dinamico -->
+	<div th:fragment="conteudo"></div>
+
+	<div th:fragment="footer">
+		<p align="center">Atepe - Associação dos Funcionários da ATI
+			copyright - &copy;</p>
+		<!--JavaScript at end of body for optimized loading-->
+		<script type="text/javascript"  th:src="@{/js/jquery-3.5.1.js}"></script>
+		<script type="text/javascript" th:src="@{/materialize/js/materialize.js}"></script>
+		<script type="text/javascript" th:src="@{/js/mascaraValidacao.js}"></script> 
+		<script type="text/javascript" th:src="@{/js/personaliza.js}"></script> 
+		
+		<script>
+			// Or with jQuery
+
+	  // Or with jQuery
+	//		const elemsModal = document.querySelectorAll('.modal');
+		//	const instancesModal = M.Modal.init(elemsModal,{});
+	
+			//const elemsSidenav = document.querySelectorAll('.sidenav');
+		//	const instancesSidenav = M.Sidenav.init(elemsSidenav,{});
+	
+			$(document).ready(function() {
+			    $('.modal').modal({
+			    		dismissible:false});
+				$('.sidenav').sidenav();
+				$('.tabs').tabs();
+				$('.collapsible').collapsible();
+				$('select').formSelect();
+				$('.dropdown-trigger').dropdown({
+					coverTrigger:false,
+				constrainWidth:false
+					});
+				});
+		</script>
+	</div>
+	
+
+</body>
+</html>

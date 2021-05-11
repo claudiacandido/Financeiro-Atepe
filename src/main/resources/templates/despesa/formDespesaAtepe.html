@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://thymeleaf.org"
+      xmlns:loyout="http://www.ultraq.net.nz/thymeleaf/loyout">
+ <head th:replace="template::html_head">
+  <meta charset="utf-8"/>
+  </head>
+ 
+<body>
+	<div th:replace="template::menu" >
+	</div>
+	    <h5 class="center"> Pagamentos de Despesa no período <span th:text="${mes_consulta}"></span></h5>
+	    <br>
+	    <div th:each ="m:${msg}" class="container alert">
+		  <span class="red-text text-darken-2" th:text="${m}"></span>
+		</div>
+		<br>
+	 <div id="modal-pagamento" class="modal">
+  		  <div class="modal-content">
+		 <form th:action="@{/salvarPagamento}" class="container" method="post" th:object="${pagamento}">
+			<input type="hidden" th:field="*{codPagamento}"/>
+			<input type="hidden" th:field="*{dataInclusao}"/>
+			<input type="hidden" th:field="*{despesa.codDespesa}"/>
+			
+			<div class="row">	
+			   <div class="input-field col s3">
+			     Período:<input type="text" th:field="*{mesAno}" readonly="readonly" placeholder="Informe o Mês/Ano!"/>
+			    </div> 
+			    <div class="input-field col s6">
+			        Despesa:: <input  th:field="*{despesa.nome}"  readonly="readonly"/>
+				  </div>
+		      <div class="input-field col s3">
+			      Valor Total:   <input type="text"  readonly="readonly" th:field="*{valorTotal}"  class="validate"/>
+			 	</div>
+		     </div>  
+		     <div class="row">
+		     <div class="input-field col s3">
+			     Número do Cheque:   <input type="text"  autofocus="autofocus"   placeholder="00000000" name="numCheque"/>
+			  </div> 
+		      <div class="input-field col s3">
+			      Valor Pago:   <input type="text"  placeholder="0,00" name="valorPago" class="validate"/>
+			   </div>  
+		 	 <div class="input-field col s3">
+				  Data de Pagamento: <input type="date" th:field="*{dataPagamento}" />
+			 </div>
+			 </div>
+			 <div class="row">
+		     <div class="input-field col s12">
+				  Histórico/Observação: <input type="text" th:field="*{observacao}" />
+			 </div>
+			 </div>
+		      <button type="submit"  value="save" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons right">done</i> Salvar</button>
+      			<a  th:href="@{/cancelarPagamento}" class="modal-close waves-effect waves-light btn red lighten-2"><i class="material-icons right">close</i> Cancelar</a>
+		   </form>
+		   <br>
+	       <br>
+	       </div>
+       </div>
+       <br>
+	   <div class="container_pequeno">
+		  <form th:action="@{/pesquisarPagamentos}" method="post">
+	              <div>		  
+		    	   Periodo: <input name="periodoPesquisa"/>
+		    	  </div>
+		  <button type="submit" class="waves-effect waves-light btn blue lighten-2"><i class="material-icons rigth">search</i>Buscar</button> 
+	    </form>
+	   </div>
+	   <br>
+	   <br>
+	   <div th:if="${lista_lac_apagar!=null}">
+	 <h5 class="center">Lançamentos Apagar</h5>
+	 <table class="container responsive-table striped">
+	 	  <thead class="blue lighten-5"> 
+		   <tr> 
+		    <th> Periodo</th>
+		    <th> Convênio</th>
+		    <th> Data inclusão</th>
+		    <th> Valor Total</th>
+		    <th> Pagar</th>
+		    
+		   </tr>
+		 </thead>
+		
+	    <tbody>		 
+			  <tr th:each="lanc:${lista_lac_apagar}">
+			    <td> <span th:text="${lanc.mesAno}"></span></td>
+			    <td> <span th:text="${lanc.convenio.razaoSocial}"></span></td>
+			  	<td> <span th:text="${#dates.format(lanc.dataInclusao, 'dd/MM/yyyy')}"></span></td>			
+			    <td class="left"> <span th:text="${#numbers.formatCurrency(lanc.valorTotal)}"></span></td>
+	    	    <td> <a th:href="@{/fazerPagamento/{idLancamento}(idLancamento=${lanc.codLancamento})}">
+	    	    <i class="material-icons left">attach_money</i> </a></td>
+				
+			   </tr>  
+			 </tbody>
+					
+	   </table>
+			<div class="container_pequeno"> Total Apagar................. <span  th:text="${#numbers.formatCurrency(valor_apagar)}"> </span></div>
+
+    </div>
+    <br>
+    <br>
+   <div th:if="${lista_lac_pago!=null}">
+   <h5 class="center">Lançamentos Pago</h5>
+		 <table class="container responsive-table striped">
+		 	  <thead class="blue lighten-5"> 
+			   <tr> 
+			    <th> Periodo</th>
+			    <th> Convênio</th>
+			    <th> Data inclusão</th>
+			    <th> Valor Total</th>
+			    <th> Número Cheque</th>
+			    <th> Data Pagamento</th>
+			    <th> Valor Pago</th>
+			    
+			    
+			   </tr>
+			 </thead>
+			
+		    <tbody>		 
+				  <tr th:each="lancamento:${lista_lac_pago}">
+				    <td> <span th:text="${lancamento.mesAno}"></span></td>
+				    <td> <span th:text="${lancamento.convenio.razaoSocial}"></span></td>				
+				    <td> <span th:text="${#dates.format(lancamento.dataInclusao, 'dd/MM/yyyy')}"></span></td>
+				    <td class="left"> <span th:text="${#numbers.formatCurrency(lancamento.valorTotal)}"></span></td>
+				    <td> <span th:text="${lancamento.numCheque}"></span></td>
+				    <td> <span th:text="${#dates.format(lancamento.dataPagamento, 'dd/MM/yyyy')}"></span></td>
+		    	    <td class="left"> <span th:text="${#numbers.formatCurrency(lancamento.valorPago)}"></span></td>
+		    	   
+				   </tr>  
+				 </tbody>
+						
+		</table>
+			<div class="container_pequeno"> Total Pago.................. <span  th:text="${#numbers.formatCurrency(valor_pago)}"> </span></div>
+	  
+	</div>
+	<div th:replace="template::footer"> </div>
+	
+	<script>
+          $(document).ready(function () {
+        	  const elem = document.getElementById('modal-pagamento');
+        	  const instance = M.Modal.init(elem, {dismissible: false});
+        	 	   $('form input').each(
+        				    function(index){  
+        				        var input = $(this);
+        				        if (( input.attr('name')=='codLancamento') & (input.val()!='')) {
+        				        	  instance.open();
+        				        	  $('.modal-pagamento').modal();
+        				        }
+        				    }
+        				);
+        	    
+			});
+          </script>
+   
+	
+</body>  
+</html>        
+
+
